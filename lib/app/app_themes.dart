@@ -6,13 +6,14 @@ class AppThemes {
     return ThemeData(
       colorSchemeSeed: AppColors.themeColor,
       scaffoldBackgroundColor: AppColors.whiteColor,
-      progressIndicatorTheme: progressIndicatorThemeData(),
+      progressIndicatorTheme: _progressIndicatorThemeData(),
       textTheme: TextTheme(
-        headlineLarge: headLineLargeTextStyle(),
+        headlineLarge: _headLineLargeTextStyle(),
       ),
-      inputDecorationTheme: inputDecorationTheme(),
-      elevatedButtonTheme: elevatedButtonThemeData(),
-      textButtonTheme: textButtonThemeData(),
+      inputDecorationTheme: _inputDecorationTheme(),
+      elevatedButtonTheme: _elevatedButtonThemeData(),
+      textButtonTheme: _textButtonThemeData(),
+      appBarTheme: _appBarTheme(),
     );
   }
 
@@ -20,17 +21,29 @@ class AppThemes {
     return ThemeData(
       colorSchemeSeed: AppColors.themeColor,
       scaffoldBackgroundColor: AppColors.whiteColor,
-      progressIndicatorTheme: progressIndicatorThemeData(),
+      progressIndicatorTheme: _progressIndicatorThemeData(),
       textTheme: TextTheme(
-        headlineLarge: headLineLargeTextStyle(),
+        headlineLarge: _headLineLargeTextStyle(),
       ),
-      inputDecorationTheme: inputDecorationTheme(),
-      elevatedButtonTheme: elevatedButtonThemeData(),
-      textButtonTheme: textButtonThemeData(),
+      inputDecorationTheme: _inputDecorationTheme(),
+      elevatedButtonTheme: _elevatedButtonThemeData(),
+      textButtonTheme: _textButtonThemeData(),
+      appBarTheme: _appBarTheme(),
     );
   }
 
-  static TextButtonThemeData textButtonThemeData() {
+  static AppBarTheme _appBarTheme() {
+    return const AppBarTheme(
+      backgroundColor: Colors.white,
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w600,
+        fontSize: 20,
+      ),
+    );
+  }
+
+  static TextButtonThemeData _textButtonThemeData() {
     return TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.themeColor,
@@ -41,7 +54,7 @@ class AppThemes {
     );
   }
 
-  static ElevatedButtonThemeData elevatedButtonThemeData() {
+  static ElevatedButtonThemeData _elevatedButtonThemeData() {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.themeColor,
@@ -56,7 +69,7 @@ class AppThemes {
     );
   }
 
-  static InputDecorationTheme inputDecorationTheme() {
+  static InputDecorationTheme _inputDecorationTheme() {
     return InputDecorationTheme(
       border: _outlineInputBorder(),
       enabledBorder: _outlineInputBorder(),
@@ -77,14 +90,14 @@ class AppThemes {
     );
   }
 
-  static TextStyle headLineLargeTextStyle() {
+  static TextStyle _headLineLargeTextStyle() {
     return const TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.bold,
     );
   }
 
-  static ProgressIndicatorThemeData progressIndicatorThemeData() {
+  static ProgressIndicatorThemeData _progressIndicatorThemeData() {
     return const ProgressIndicatorThemeData(
       color: AppColors.themeColor,
     );

@@ -1,8 +1,8 @@
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class AppBarIconButton extends StatelessWidget {
-  const AppBarIconButton({
+class AppBarIcon extends StatelessWidget {
+  const AppBarIcon({
     super.key,
     required this.onTap,
     required this.iconData,
