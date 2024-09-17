@@ -37,7 +37,7 @@ class AppThemes {
       backgroundColor: Colors.white,
       titleTextStyle: TextStyle(
         color: Colors.black,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
         fontSize: 20,
       ),
     );

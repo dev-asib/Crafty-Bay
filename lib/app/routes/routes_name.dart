@@ -9,4 +9,5 @@ class RoutesName{
   static const String mainBottomNavScreen = "/main_bottom_nav_screen";
   static const String cartScreen = "/cart_screen";
   static const String wishListScreen = "/wish_list_screen";
+  static const String productDetailsScreen = "/product_details_screen";
 }

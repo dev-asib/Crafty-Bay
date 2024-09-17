@@ -5,6 +5,7 @@ import 'package:crafty_bay/Presentation/ui/screens/cart_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/category_list_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/home_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/main_bottom_nav_screen.dart';
+import 'package:crafty_bay/Presentation/ui/screens/product_details_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/product_list_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/splash_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/wish_list_screen.dart';
@@ -52,6 +53,10 @@ class AppRoutes {
     GetPage(
       name: RoutesName.wishListScreen,
       page: () => const WishListScreen(),
+    ),
+    GetPage(
+      name: RoutesName.productDetailsScreen,
+      page: () => const ProductDetailsScreen(),
     ),
       ];
 }
