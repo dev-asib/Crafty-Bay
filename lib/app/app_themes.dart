@@ -14,6 +14,18 @@ class AppThemes {
       elevatedButtonTheme: _elevatedButtonThemeData(),
       textButtonTheme: _textButtonThemeData(),
       appBarTheme: _appBarTheme(),
+      floatingActionButtonTheme: _floatingActionButtonThemeData(),
+    );
+  }
+
+  static FloatingActionButtonThemeData _floatingActionButtonThemeData() {
+    return FloatingActionButtonThemeData(
+      elevation: 3,
+      foregroundColor: Colors.white,
+      backgroundColor: AppColors.themeColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100),
+      ),
     );
   }
 
@@ -29,6 +41,7 @@ class AppThemes {
       elevatedButtonTheme: _elevatedButtonThemeData(),
       textButtonTheme: _textButtonThemeData(),
       appBarTheme: _appBarTheme(),
+      floatingActionButtonTheme: _floatingActionButtonThemeData(),
     );
   }
 
@@ -46,12 +59,8 @@ class AppThemes {
   static TextButtonThemeData _textButtonThemeData() {
     return TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.themeColor,
-          textStyle: const TextStyle(
-            fontSize: 16
-          )
-        )
-    );
+            foregroundColor: AppColors.themeColor,
+            textStyle: const TextStyle(fontSize: 16)));
   }
 
   static ElevatedButtonThemeData _elevatedButtonThemeData() {
@@ -71,16 +80,15 @@ class AppThemes {
 
   static InputDecorationTheme _inputDecorationTheme() {
     return InputDecorationTheme(
-      border: _outlineInputBorder(),
-      enabledBorder: _outlineInputBorder(),
-      focusedBorder: _outlineInputBorder(),
-      errorBorder: _outlineInputBorder(Colors.red),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      hintStyle: const TextStyle(
-        color: Colors.black45,
-        fontWeight: FontWeight.w400,
-      )
-    );
+        border: _outlineInputBorder(),
+        enabledBorder: _outlineInputBorder(),
+        focusedBorder: _outlineInputBorder(),
+        errorBorder: _outlineInputBorder(Colors.red),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        hintStyle: const TextStyle(
+          color: Colors.black45,
+          fontWeight: FontWeight.w400,
+        ));
   }
 
   static OutlineInputBorder _outlineInputBorder([Color? color]) {

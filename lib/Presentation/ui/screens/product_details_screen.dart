@@ -3,6 +3,7 @@ import 'package:crafty_bay/Presentation/ui/widgets/color_picker.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/product_image_slider.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/quantity_counter.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/size_picker.dart';
+import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -162,11 +163,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ],
         ),
         const SizedBox(width: 8),
-        const Text(
-          "Review",
-          style: TextStyle(
-            color: AppColors.themeColor,
-            fontWeight: FontWeight.w500,
+        TextButton(
+          onPressed: _onTapReviewButton,
+          child: const Text(
+            "Review",
+            style: TextStyle(
+              color: AppColors.themeColor,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         const SizedBox(width: 8),
@@ -196,5 +200,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       title: const Text("Product Details"),
     );
+  }
+
+  void _onTapReviewButton() {
+    Get.toNamed(RoutesName.reviewsScreen);
   }
 }

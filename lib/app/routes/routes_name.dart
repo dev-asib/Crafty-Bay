@@ -10,4 +10,6 @@ class RoutesName{
   static const String cartScreen = "/cart_screen";
   static const String wishListScreen = "/wish_list_screen";
   static const String productDetailsScreen = "/product_details_screen";
+  static const String reviewsScreen = "/reviews_screen";
+  static const String createReviewScreen = "/create_review_screen";
 }
