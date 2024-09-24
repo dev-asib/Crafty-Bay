@@ -6,5 +6,5 @@ export 'home/section_header.dart';
 export 'home/app_logo_nav_widget.dart';
 export 'app_logo_widget.dart';
 export 'category_card.dart';
-export 'home_banner_slider.dart';
+export 'home/home_banner_slider.dart';
 export 'product_card.dart';
