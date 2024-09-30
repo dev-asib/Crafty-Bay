@@ -17,7 +17,7 @@ class CategoryCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed(RoutesName.productListScreen,
-            arguments: {"categoryName": "${categoryModel.categoryName}"});
+            arguments: {"categoryName": categoryModel.categoryName ?? ''});
       },
       child: Column(
         children: [
@@ -35,7 +35,7 @@ class CategoryCard extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            categoryModel.categoryName.toString(),
+            categoryModel.categoryName ?? '',
             style: const TextStyle(
               color: AppColors.themeColor,
             ),
