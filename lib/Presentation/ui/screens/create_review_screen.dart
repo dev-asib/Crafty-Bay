@@ -75,7 +75,6 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
     );
   }
 
-
   @override
   void dispose() {
     _firstNameTEController.dispose();

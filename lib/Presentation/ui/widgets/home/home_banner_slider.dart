@@ -1,6 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:crafty_bay/Presentation/state_holders/slider_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/data/models/slider_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeBannerSlider extends StatefulWidget {
   const HomeBannerSlider({
@@ -16,60 +20,122 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        CarouselSlider(
-          options: CarouselOptions(
-              height: 180.0,
-              onPageChanged: (index, reason) {
-                _selectedIndex.value = index;
-              }),
-          items: [1, 2, 3, 4, 5].map(
-            (i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: const BoxDecoration(
-                      color: AppColors.themeColor,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'text $i',
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  );
-                },
-              );
-            },
-          ).toList(),
+    return GetBuilder<SliderListController>(builder: (sliderListController) {
+      return Visibility(
+        visible: !sliderListController.inProgress,
+        replacement: const CenteredCircularProgressIndicator(),
+        child: Column(
+          children: <Widget>[
+            _buildSlider(sliderListController),
+            const SizedBox(height: 8),
+            _buildSliderDots(sliderListController)
+          ],
         ),
-        const SizedBox(height: 8),
-        ValueListenableBuilder(
-          valueListenable: _selectedIndex,
-          builder: (context, currentIndex, _) {
-            return Row(
+      );
+    });
+  }
+
+  Widget _buildSliderDots(SliderListController sliderListController) {
+    return ValueListenableBuilder(
+      valueListenable: _selectedIndex,
+      builder: (context, currentIndex, _) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            sliderListController.sliderList.length,
+                (index) {
+              return _buildDot(currentIndex, index);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDot(int currentIndex, int index) {
+    return Container(
+      height: 12,
+      width: 12,
+      key: ValueKey(index),
+      margin: const EdgeInsets.only(right: 4),
+      decoration: BoxDecoration(
+        color: currentIndex == index ? AppColors.themeColor : null,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSlider(SliderListController sliderListController) {
+    return CarouselSlider(
+      options: CarouselOptions(
+          height: 180.0,
+          viewportFraction: 1,
+          onPageChanged: (index, reason) {
+            _selectedIndex.value = index;
+          }),
+      items: sliderListController.sliderList
+          .map(
+            (slider) => _buildSliderItem(context, slider),
+      )
+          .toList(),
+    );
+  }
+
+  Widget _buildSliderItem(BuildContext context, SliderModel slider) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(horizontal: 3.0),
+      decoration: BoxDecoration(
+        color: AppColors.themeColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      alignment: Alignment.center,
+      child: Row(
+        children: [
+          const Placeholder(
+            fallbackWidth: 100,
+            fallbackHeight: 100,
+          ),
+          Expanded(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < 5; i++)
-                  Container(
-                    height: 12,
-                    width: 12,
-                    margin: const EdgeInsets.only(right: 4),
-                    decoration: BoxDecoration(
-                      color: currentIndex == i ? AppColors.themeColor : null,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
+                _buildSliderText(slider, context),
+                const SizedBox(height: 16),
+                _buildBuyNowButton()
               ],
-            );
-          },
-        )
-      ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSliderText(SliderModel slider, BuildContext context) {
+    return Text(
+      textAlign: TextAlign.center,
+      slider.price ?? '',
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+        color: AppColors.whiteColor,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget _buildBuyNowButton() {
+    return SizedBox(
+      width: 100,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          foregroundColor: AppColors.themeColor,
+          backgroundColor: AppColors.whiteColor,
+        ),
+        onPressed: () {},
+        child: const Text("Buy now"),
+      ),
     );
   }
 

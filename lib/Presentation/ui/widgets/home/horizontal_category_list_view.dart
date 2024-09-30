@@ -1,20 +1,23 @@
 import 'package:crafty_bay/Presentation/ui/widgets/category_card.dart';
+import 'package:crafty_bay/data/models/category_model.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalCategoryListView extends StatelessWidget {
   const HorizontalCategoryListView({
     super.key,
+    required this.categoryList,
   });
+
+  final List<CategoryModel> categoryList;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
-      itemCount: 10,
+      itemCount: categoryList.length,
       itemBuilder: (context, index) {
-        return const CategoryCard(
-          iconData: Icons.computer,
-          label: "Electronics",
+        return CategoryCard(
+          categoryModel: categoryList[index],
         );
       },
       separatorBuilder: (_, __) {

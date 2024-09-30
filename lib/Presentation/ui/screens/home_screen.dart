@@ -1,4 +1,6 @@
+import 'package:crafty_bay/Presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,9 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
               Get.find<MainBottomNavController>().selectCategory();
             }),
         const SizedBox(height: 8),
-        const SizedBox(
+        SizedBox(
           height: 120,
-          child: HorizontalCategoryListView(),
+          child: GetBuilder<CategoryListController>(
+              builder: (categoryListController) {
+            return Visibility(
+              visible: !categoryListController.inProgress,
+              replacement: const CenteredCircularProgressIndicator(),
+              child: HorizontalCategoryListView(
+                categoryList: categoryListController.categoryList,
+              ),
+            );
+          }),
         ),
       ],
     );
