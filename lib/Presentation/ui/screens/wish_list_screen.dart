@@ -19,13 +19,7 @@ class _WishListScreenState extends State<WishListScreen> {
         backToHome();
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: backToHome,
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
-          title: const Text("WishList"),
-        ),
+        appBar: _buildAppBar(),
         body: GridView.builder(
           itemCount: 20,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -35,10 +29,20 @@ class _WishListScreenState extends State<WishListScreen> {
             mainAxisSpacing: 8,
           ),
           itemBuilder: (context, index) {
-         //   return const ProductCard();
+            //   return const ProductCard();
           },
         ),
       ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      leading: IconButton(
+        onPressed: backToHome,
+        icon: const Icon(Icons.arrow_back_ios),
+      ),
+      title: const Text("WishList"),
     );
   }
 

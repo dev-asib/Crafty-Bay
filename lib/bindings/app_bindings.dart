@@ -1,8 +1,10 @@
 import 'package:crafty_bay/Presentation/state_holders/category_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/list_product_by_category_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/new_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/otp_verification_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/popular_product_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/slider_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/special_product_list_controller.dart';
 import 'package:crafty_bay/data/services/logger_service.dart';
@@ -28,5 +30,7 @@ class AppBindings extends Bindings {
     Get.lazyPut(() => NewProductListController());
     Get.lazyPut(() => PopularProductListController());
     Get.lazyPut(() => SpecialProductListController());
+    Get.put(ListProductByCategoryController());
+    Get.put(ProductDetailsController());
   }
 }

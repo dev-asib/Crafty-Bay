@@ -1,9 +1,11 @@
 import 'package:crafty_bay/Presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_path.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/category_card.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class CategoryListScreen extends StatelessWidget {
   const CategoryListScreen({super.key});
@@ -31,9 +33,27 @@ class CategoryListScreen extends StatelessWidget {
               builder: (categoryListController) {
             if (categoryListController.inProgress) {
               return const CenteredCircularProgressIndicator();
-            } else if (categoryListController.errorMessage != null) {
+            }
+
+            if (categoryListController.errorMessage != null) {
               return Center(
                 child: Text(categoryListController.errorMessage!),
+              );
+            }
+
+            if (categoryListController.categoryList.isEmpty) {
+              return Center(
+                child: Column(
+                  children: [
+                    Lottie.asset(AssetsPath.emptyLottie),
+                    Text(
+                      "Category List Empty",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
               );
             }
             return GridView.builder(

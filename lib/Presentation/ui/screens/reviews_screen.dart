@@ -81,11 +81,8 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      forceMaterialTransparency: true,
       leading: IconButton(
-        onPressed: () {
-          Get.back();
-        },
+        onPressed: ()=> Get.back(),
         icon: const Icon(Icons.arrow_back_ios),
       ),
       title: const Text("Reviews"),

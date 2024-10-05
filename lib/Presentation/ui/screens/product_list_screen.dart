@@ -1,31 +1,101 @@
+import 'package:crafty_bay/Presentation/state_holders/list_product_by_category_controller.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/product_card.dart';
+import 'package:crafty_bay/data/models/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
-class ProductListScreen extends StatelessWidget {
+class ProductListScreen extends StatefulWidget {
   const ProductListScreen({
     super.key,
   });
 
   @override
+  State<ProductListScreen> createState() => _ProductListScreenState();
+}
+
+class _ProductListScreenState extends State<ProductListScreen> {
+  late CategoryModel categoryModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    categoryModel = Get.arguments['categoryModel'];
+
+    Get.find<ListProductByCategoryController>()
+        .getListProductByCategory(categoryModel.id!);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final categoryName = Get.arguments['categoryName'];
     return Scaffold(
-      appBar: AppBar(
-        title: Text(categoryName),
+      appBar: _buildAppBar(categoryModel.categoryName ?? ''),
+      body: GetBuilder<ListProductByCategoryController>(
+          builder: (listProductByCategoryController) {
+        if (listProductByCategoryController.inProgress) {
+          return const CenteredCircularProgressIndicator();
+        }
+        if (listProductByCategoryController.errorMessage != null) {
+          return Center(
+            child: Text(
+              listProductByCategoryController.errorMessage.toString(),
+            ),
+          );
+        }
+
+        if (listProductByCategoryController.productList.isEmpty) {
+          return Center(
+            child: Column(
+              children: [
+                Lottie.asset(AssetsPath.emptyLottie),
+                Text(
+                  "Product List Empty",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Padding(
+          padding: const EdgeInsets.only(
+            top: 8.0,
+            left: 8.0,
+            right: 8.0,
+          ),
+          child: GridView.builder(
+            itemCount: listProductByCategoryController.productList.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 1,
+              crossAxisSpacing: 2,
+              mainAxisSpacing: 11,
+            ),
+            itemBuilder: (context, index) {
+              return FittedBox(
+                child: ProductCard(
+                  product: listProductByCategoryController.productList[index],
+                ),
+              );
+            },
+          ),
+        );
+      }),
+    );
+  }
+
+  AppBar _buildAppBar(String categoryName) {
+    return AppBar(
+      leading: IconButton(
+        onPressed: () => Get.back(),
+        icon: const Icon(Icons.arrow_back_ios),
       ),
-      body: GridView.builder(
-        itemCount: 20,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 0.7,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
-        itemBuilder: (context, index) {
-        //  return const ProductCard();
-        },
-      ),
+      title: Text(categoryName),
     );
   }
 }

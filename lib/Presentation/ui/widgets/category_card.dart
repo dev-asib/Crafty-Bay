@@ -16,8 +16,9 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(RoutesName.productListScreen,
-            arguments: {"categoryName": categoryModel.categoryName ?? ''});
+        Get.toNamed(RoutesName.productListScreen, arguments: {
+          'categoryModel': categoryModel,
+        });
       },
       child: Column(
         children: [
@@ -27,10 +28,9 @@ class CategoryCard extends StatelessWidget {
               color: AppColors.themeColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(
-              Icons.computer,
-              size: 48,
-              color: AppColors.themeColor,
+            child: Image.network(
+              categoryModel.categoryImg ?? '',
+              width: 48,
             ),
           ),
           const SizedBox(height: 4),

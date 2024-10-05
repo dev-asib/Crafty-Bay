@@ -1,9 +1,11 @@
+import 'package:crafty_bay/Presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
-import 'package:crafty_bay/Presentation/ui/widgets/color_picker.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/product_image_slider.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/quantity_counter.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/size_picker.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
+import 'package:crafty_bay/data/models/product_details_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,62 +18,92 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
+  void initState() {
+    super.initState();
+    final productID = Get.arguments['productID'];
+
+    Get.find<ProductDetailsController>().getProductDetailsById(productID);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          const ProductImageSlider(),
-          const SizedBox(height: 16),
-          Expanded(
-            child: _buildDetailsSection(),
-          ),
-          _buildPriceAndAddToCartSection(),
-        ],
-      ),
+      body: GetBuilder<ProductDetailsController>(
+          builder: (productDetailsController) {
+        if (productDetailsController.inProgress) {
+          return const CenteredCircularProgressIndicator();
+        }
+
+        if (productDetailsController.errorMessage != null) {
+          return Center(
+            child: Text(productDetailsController.errorMessage!),
+          );
+        }
+
+        return Column(
+          children: [
+
+            Expanded(
+              child: _buildDetailsSection(
+                  productDetailsController.productDetailsModel!),
+            ),
+            _buildPriceAndAddToCartSection(
+                productDetailsController.productDetailsModel!),
+          ],
+        );
+      }),
     );
   }
 
-  Widget _buildDetailsSection() {
+  Widget _buildDetailsSection(ProductDetailsModel productDetailsModel) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildNameAndQuantitySection(),
-            const SizedBox(height: 4),
-            _buildRatingAndReviewSection(),
-            const SizedBox(height: 8),
-            ColorPicker(
-              colors: const [
-                Colors.blue,
-                Colors.deepPurple,
-                Colors.red,
-                Colors.black,
+            ProductImageSlider(
+              sliderUrls: [
+                productDetailsModel.img1!,
+                productDetailsModel.img2!,
+                productDetailsModel.img3!,
+                productDetailsModel.img4!,
               ],
-              onChangedColor: (color) {},
             ),
             const SizedBox(height: 16),
+            _buildNameAndQuantitySection(productDetailsModel),
+            const SizedBox(height: 4),
+            _buildRatingAndReviewSection(productDetailsModel),
+            const SizedBox(height: 8),
+            // ColorPicker(
+            //   colors: const [
+            //     Colors.blue,
+            //     Colors.deepPurple,
+            //     Colors.red,
+            //     Colors.black,
+            //   ],
+            //   onChangedColor: (color) {},
+            // ),
             SizePicker(
-              sizes: const [
-                'S',
-                'M',
-                'L',
-                'XL',
-                'XXL',
-              ],
+              sizes: productDetailsModel.color!.split(','),
               onChangedSize: (String selectedSize) {},
             ),
             const SizedBox(height: 16),
-            _buildDescriptionSection(),
+            SizePicker(
+              sizes: productDetailsModel.size!.split(','),
+              onChangedSize: (String selectedSize) {},
+            ),
+            const SizedBox(height: 16),
+            _buildDescriptionSection(productDetailsModel),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPriceAndAddToCartSection() {
+  Widget _buildPriceAndAddToCartSection(
+      ProductDetailsModel productDetailsModel) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.themeColor.withOpacity(0.1),
@@ -84,13 +116,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Price"),
+              const Text("Price"),
               Text(
-                "\$100",
-                style: TextStyle(
+                "\$${productDetailsModel.product?.price ?? ''}",
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: AppColors.themeColor,
@@ -110,27 +142,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildDescriptionSection() {
+  Widget _buildDescriptionSection(ProductDetailsModel productDetailsModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Description', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
-        const Text(
-          '''Item Count Number Button is a Flutter package that allows you to easily implement a customizable item count widget with increment and decrement buttons. Item Count Number Button is a Flutter package that allows you to easily implement a customizable item count widget with increment and decrement buttons. This widget is particularly useful in scenarios where you need to manage the quantity of items, such as in a shopping cart or inventory management system.''',
-          style: TextStyle(color: Colors.black45),
+        Text(
+          productDetailsModel.product?.shortDes ?? '',
+          style: const TextStyle(color: Colors.black45),
         ),
       ],
     );
   }
 
-  Widget _buildNameAndQuantitySection() {
+  Widget _buildNameAndQuantitySection(ProductDetailsModel productDetailsModel) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
-            "Nike show 2024 latest model - Happy new year special offer",
+            productDetailsModel.product?.title ?? '',
             style: Theme.of(context).textTheme.titleMedium,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
@@ -142,20 +174,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildRatingAndReviewSection() {
+  Widget _buildRatingAndReviewSection(ProductDetailsModel productDetailsModel) {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        const Wrap(
+        Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.star,
               color: Colors.amber,
             ),
             Text(
-              "4.2",
-              style: TextStyle(
+              "${productDetailsModel.product?.star ?? ''}",
+              style: const TextStyle(
                 color: Colors.black45,
                 fontWeight: FontWeight.w500,
               ),

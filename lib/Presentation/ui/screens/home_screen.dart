@@ -26,7 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               const SizedBox(height: 16),
-              SearchTextField(textEditingController: TextEditingController()),
+              SearchTextField(
+                textEditingController: TextEditingController(),
+              ),
               const SizedBox(height: 16),
               const HomeBannerSlider(),
               const SizedBox(height: 16),
@@ -100,14 +102,14 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 180,
           child: GetBuilder<NewProductListController>(
               builder: (newProductListController) {
-                return Visibility(
-                  visible: !newProductListController.inProgress,
-                  replacement: const CenteredCircularProgressIndicator(),
-                  child: HorizontalProductListView(
-                    productList: newProductListController.productList,
-                  ),
-                );
-              }),
+            return Visibility(
+              visible: !newProductListController.inProgress,
+              replacement: const CenteredCircularProgressIndicator(),
+              child: HorizontalProductListView(
+                productList: newProductListController.productList,
+              ),
+            );
+          }),
         ),
       ],
     );
@@ -122,14 +124,14 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 180,
           child: GetBuilder<SpecialProductListController>(
               builder: (specialProductListController) {
-                return Visibility(
-                  visible: !specialProductListController.inProgress,
-                  replacement: const CenteredCircularProgressIndicator(),
-                  child: HorizontalProductListView(
-                    productList: specialProductListController.productList,
-                  ),
-                );
-              }),
+            return Visibility(
+              visible: !specialProductListController.inProgress,
+              replacement: const CenteredCircularProgressIndicator(),
+              child: HorizontalProductListView(
+                productList: specialProductListController.productList,
+              ),
+            );
+          }),
         ),
       ],
     );

@@ -64,7 +64,6 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      forceMaterialTransparency: true,
       leading: IconButton(
         onPressed: () {
           Get.back();

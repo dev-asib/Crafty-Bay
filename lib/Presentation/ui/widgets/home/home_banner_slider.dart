@@ -43,7 +43,7 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
             sliderListController.sliderList.length,
-                (index) {
+            (index) {
               return _buildDot(currentIndex, index);
             },
           ),
@@ -79,7 +79,7 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
       items: sliderListController.sliderList
           .map(
             (slider) => _buildSliderItem(context, slider),
-      )
+          )
           .toList(),
     );
   }
@@ -91,25 +91,20 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
       decoration: BoxDecoration(
         color: AppColors.themeColor,
         borderRadius: BorderRadius.circular(16),
+        image: DecorationImage(
+            image: NetworkImage(slider.image ?? ''), fit: BoxFit.cover),
       ),
-      alignment: Alignment.center,
-      child: Row(
-        children: [
-          const Placeholder(
-            fallbackWidth: 100,
-            fallbackHeight: 100,
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildSliderText(slider, context),
-                const SizedBox(height: 16),
-                _buildBuyNowButton()
-              ],
-            ),
-          ),
-        ],
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _buildSliderText(slider, context),
+            const SizedBox(height: 16),
+            _buildBuyNowButton()
+          ],
+        ),
       ),
     );
   }
@@ -119,9 +114,9 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
       textAlign: TextAlign.center,
       slider.price ?? '',
       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        color: AppColors.whiteColor,
-        fontWeight: FontWeight.bold,
-      ),
+            color: AppColors.blackColor,
+            fontWeight: FontWeight.bold,
+          ),
     );
   }
 
@@ -130,8 +125,8 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
       width: 100,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: AppColors.themeColor,
-          backgroundColor: AppColors.whiteColor,
+          foregroundColor: AppColors.whiteColor,
+          backgroundColor: AppColors.blackColor,
         ),
         onPressed: () {},
         child: const Text("Buy now"),

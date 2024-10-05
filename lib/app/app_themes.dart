@@ -53,14 +53,17 @@ class AppThemes {
         fontWeight: FontWeight.w500,
         fontSize: 20,
       ),
+      scrolledUnderElevation: 0,
     );
   }
 
   static TextButtonThemeData _textButtonThemeData() {
     return TextButtonThemeData(
-        style: TextButton.styleFrom(
-            foregroundColor: AppColors.themeColor,
-            textStyle: const TextStyle(fontSize: 16)));
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.themeColor,
+        textStyle: const TextStyle(fontSize: 16),
+      ),
+    );
   }
 
   static ElevatedButtonThemeData _elevatedButtonThemeData() {
