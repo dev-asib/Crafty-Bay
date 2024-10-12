@@ -1,10 +1,15 @@
+import 'package:crafty_bay/Presentation/state_holders/email_verification_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/otp_verification_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/read_profile_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/timer_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
-import 'package:crafty_bay/Presentation/ui/widgets/app_logo_widget.dart';
+import 'package:crafty_bay/Presentation/ui/utils/notification_utils.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/auth_header.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/otp_verification/otp_verification_form.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   const OTPVerificationScreen({super.key});
@@ -14,15 +19,19 @@ class OTPVerificationScreen extends StatefulWidget {
 }
 
 class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
-  final OTPVerificationController otpVerificationController =
-      Get.put(OTPVerificationController());
-
   final TextEditingController _otpTEController = TextEditingController();
+
+  final TimerController _timerController = Get.put(TimerController());
+
+  final OtpVerificationController _otpVerificationController =
+      Get.find<OtpVerificationController>();
+
+  final ReadProfileController _readProfileController = Get.find<ReadProfileController>();
 
   @override
   void initState() {
     super.initState();
-    otpVerificationController.startTimer();
+    _timerController.startTimer();
   }
 
   @override
@@ -34,85 +43,16 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
           child: Column(
             children: [
               const SizedBox(height: 82),
-              const AppLogoWidget(),
-              const SizedBox(height: 24),
-              Text(
-                "Enter OTP Code",
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "A 4 digit otp code has been sent to email.",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.black45,
-                    ),
+              const AuthHeader(
+                title: "Enter OTP Code",
+                subTitle: "A 4 digit otp code has been sent to email.",
               ),
               const SizedBox(height: 24),
-              PinCodeTextField(
-                length: 6,
-                animationType: AnimationType.fade,
-                keyboardType: TextInputType.number,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(5),
-                  fieldHeight: 50,
-                  fieldWidth: 40,
-                  activeFillColor: Colors.white,
-                  selectedFillColor: Colors.white,
-                  selectedColor: Colors.green,
-                  inactiveFillColor: Colors.white,
-                  inactiveColor: AppColors.themeColor,
-                ),
-                animationDuration: const Duration(milliseconds: 300),
-                backgroundColor: Colors.transparent,
-                enableActiveFill: true,
-                controller: _otpTEController,
-                appContext: context,
-              ),
+              OtpVerificationForm(otpTEController: _otpTEController),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _onTapNextScreen,
-                child: const Text('Next'),
-              ),
+              _buildNextButton(),
               const SizedBox(height: 16),
-              GetBuilder<OTPVerificationController>(
-                builder: (otpVerificationController) {
-                  return RichText(
-                    text: TextSpan(
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: AppColors.greyColor),
-                      text: "This code will expire in ",
-                      children: [
-                        TextSpan(
-                          text: otpVerificationController.remainingSeconds
-                              .toString(),
-                          style: const TextStyle(color: AppColors.themeColor),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 8),
-              GetBuilder<OTPVerificationController>(
-                builder: (otpVerificationController) {
-                  return TextButton(
-                    onPressed: otpVerificationController.remainingSeconds > 0
-                        ? null
-                        : () => otpVerificationController.resetTimer(),
-                    child: Text(
-                      "Resend Code",
-                      style: TextStyle(
-                        color: otpVerificationController.remainingSeconds > 0
-                            ? Colors.grey
-                            : null,
-                      ),
-                    ),
-                  );
-                },
-              ),
+              _buildOtpFooter(context),
             ],
           ),
         ),
@@ -120,13 +60,115 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     );
   }
 
-  void _onTapNextScreen() {
-    Get.toNamed(RoutesName.completeProfileScreen);
+  Widget _buildOtpFooter(BuildContext context) {
+    return Column(
+      children: [
+        _buildOtpTimeCounter(context),
+        const SizedBox(height: 8),
+        _buildOtpResendButton(),
+      ],
+    );
+  }
+
+  Widget _buildOtpResendButton() {
+    return GetBuilder<TimerController>(
+      builder: (timerController) {
+        return TextButton(
+          onPressed: timerController.remainingSeconds > 0
+              ? null
+              : () => timerController.resetTimer(resendCode: _resendCode),
+          child: Text(
+            "Resend Code",
+            style: TextStyle(
+              color: timerController.remainingSeconds > 0 ? Colors.grey : null,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildOtpTimeCounter(BuildContext context) {
+    return GetBuilder<TimerController>(
+      builder: (timerController) {
+        return RichText(
+          text: TextSpan(
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(color: AppColors.greyColor),
+            text: "This code will expire in ",
+            children: [
+              TextSpan(
+                text: timerController.remainingSeconds.toString(),
+                style: const TextStyle(color: AppColors.themeColor),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildNextButton() {
+    return GetBuilder<OtpVerificationController>(
+        builder: (otpVerificationController) {
+      return Visibility(
+        visible: !otpVerificationController.inProgress,
+        replacement: const CenteredCircularProgressIndicator(),
+        child: ElevatedButton(
+          onPressed: _onTapNextScreen,
+          child: const Text('Next'),
+        ),
+      );
+    });
+  }
+
+  Future<void> _onTapNextScreen() async {
+    bool result = await _otpVerificationController.verifyOtp(
+      Get.arguments['email'],
+      _otpTEController.text,
+    );
+
+    if (result) {
+      final bool readProfileResult = await _readProfileController.getProfileDetails(_otpVerificationController.accessToken);
+      if(readProfileResult){
+        if(_readProfileController.isProfileCompleted){
+          Get.offAllNamed(RoutesName.mainBottomNavScreen);
+        } else{
+          Get.toNamed(RoutesName.completeProfileScreen);
+        }
+      } else{
+        if (mounted) {
+          NotificationUtils.flushBarNotification(
+            context: context,
+            title: "Warning",
+            message: _readProfileController.errorMessage!,
+            backgroundColor: AppColors.redColor,
+          );
+        }
+      }
+    } else {
+      if (mounted) {
+        NotificationUtils.flushBarNotification(
+          context: context,
+          title: "OTP Verification Alert!",
+          message: _otpVerificationController.errorMessage!,
+          backgroundColor: AppColors.redColor,
+        );
+      }
+    }
+  }
+
+  Future<void> _resendCode() async {
+    await Get.find<EmailVerificationController>().verifyEmail(
+      Get.arguments['email'],
+    );
   }
 
   @override
   void dispose() {
-    otpVerificationController.onClose();
+    _timerController.onClose();
     super.dispose();
   }
 }

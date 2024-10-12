@@ -1,10 +1,12 @@
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class QuantityCounter extends StatelessWidget {
+class QuantityCounter extends StatefulWidget {
   const QuantityCounter({
     super.key,
-    this.quantity = 1, required this.onIncrease, required this.onDecrease,
+    this.quantity = 1,
+    required this.onIncrease,
+    required this.onDecrease,
   });
 
   final int quantity;
@@ -12,15 +14,20 @@ class QuantityCounter extends StatelessWidget {
   final VoidCallback onDecrease;
 
   @override
+  State<QuantityCounter> createState() => _QuantityCounterState();
+}
+
+class _QuantityCounterState extends State<QuantityCounter> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _buildIconButton(Icons.remove, onDecrease),
+        _buildIconButton(Icons.remove, widget.onDecrease),
         Text(
-          "$quantity",
+          "${widget.quantity}",
           style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
-        _buildIconButton(Icons.add, onIncrease),
+        _buildIconButton(Icons.add, widget.onIncrease),
       ],
     );
   }

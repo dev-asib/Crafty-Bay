@@ -1,3 +1,4 @@
+import 'package:crafty_bay/Presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/app_logo_widget.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
@@ -14,6 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   Future<void> _moveToNextScreen() async {
     await Future.delayed(const Duration(seconds: 3));
+    await Get.find<AuthController>().getAccessToken();
     Get.offNamed(RoutesName.mainBottomNavScreen);
   }
 

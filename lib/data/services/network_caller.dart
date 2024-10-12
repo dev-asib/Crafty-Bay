@@ -1,20 +1,30 @@
 import 'dart:convert';
+import 'package:crafty_bay/Presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:crafty_bay/data/models/network_response.dart';
 import 'package:crafty_bay/data/services/logger_service.dart';
+import 'package:get/get.dart' as getx;
 import 'package:http/http.dart';
 
 class NetworkCaller {
   final LoggerService loggerServices;
+  final AuthController authController;
 
-  NetworkCaller({required this.loggerServices});
+  NetworkCaller({
+    required this.loggerServices,
+    required this.authController,
+  });
 
-  Future<NetworkResponse> getRequest({required String url}) async {
+  Future<NetworkResponse> getRequest(
+      {required String url, String? token}) async {
     try {
       final Uri uri = Uri.parse(url);
-      loggerServices.requestLog(url, {}, {}, '');
+      loggerServices.requestLog(url, {}, {}, AuthController.accessToken ?? '');
       final Response response = await get(
         uri,
-        headers: {'token': ''},
+        headers: {
+          'token': '${token ?? AuthController.accessToken}',
+        },
       );
       if (response.statusCode == 200) {
         loggerServices.responseLog(
@@ -28,6 +38,9 @@ class NetworkCaller {
       } else {
         loggerServices.responseLog(
             url, response.statusCode, response.body, response.headers, false);
+        if(response.statusCode == 401){
+          _moveToNext();
+        }
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
@@ -51,7 +64,7 @@ class NetworkCaller {
       final Response response = await post(
         uri,
         headers: {
-          'token': '',
+          'token': '${AuthController.accessToken}',
           'content-type': 'application/json',
         },
         body: jsonEncode(body),
@@ -68,6 +81,9 @@ class NetworkCaller {
       } else {
         loggerServices.responseLog(
             url, response.statusCode, response.body, response.headers, false);
+        if(response.statusCode == 401){
+          _moveToNext();
+        }
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
@@ -82,4 +98,10 @@ class NetworkCaller {
       );
     }
   }
+
+  Future<void> _moveToNext () async{
+    authController.clearUserData();
+    getx.Get.toNamed(RoutesName.emailVerificationScreen);
+  }
+
 }

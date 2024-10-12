@@ -1,8 +1,13 @@
+import 'package:crafty_bay/Presentation/state_holders/add_to_cart_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/category_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/email_verification_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/list_product_by_category_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/new_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/otp_verification_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/read_profile_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/timer_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/popular_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/slider_list_controller.dart';
@@ -20,17 +25,25 @@ class AppBindings extends Bindings {
     Get.put(LoggerService(logger: Get.find<Logger>()));
 
     /// NetworkCaller with LoggerService
-    Get.put(NetworkCaller(loggerServices: Get.find<LoggerService>()));
+    Get.put(AuthController());
+    Get.put(NetworkCaller(
+      loggerServices: Get.find<LoggerService>(),
+      authController: Get.find<AuthController>(),
+    ));
 
     /// State holders
-    Get.lazyPut(() => MainBottomNavController());
-    Get.lazyPut(() => OTPVerificationController());
-    Get.lazyPut(() => SliderListController());
-    Get.lazyPut(() => CategoryListController());
-    Get.lazyPut(() => NewProductListController());
-    Get.lazyPut(() => PopularProductListController());
-    Get.lazyPut(() => SpecialProductListController());
+    Get.put(MainBottomNavController());
+    Get.put(TimerController());
+    Get.put(SliderListController());
+    Get.put(CategoryListController());
+    Get.put(NewProductListController());
+    Get.put(PopularProductListController());
+    Get.put(SpecialProductListController());
     Get.put(ListProductByCategoryController());
     Get.put(ProductDetailsController());
+    Get.put(EmailVerificationController());
+    Get.put(OtpVerificationController());
+    Get.put(ReadProfileController());
+    Get.put(AddToCartController());
   }
 }
