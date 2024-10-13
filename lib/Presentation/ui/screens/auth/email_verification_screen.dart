@@ -1,4 +1,4 @@
-import 'package:crafty_bay/Presentation/state_holders/email_verification_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/email_verification_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/auth_header.dart';

@@ -1,5 +1,5 @@
 import 'package:crafty_bay/Presentation/state_holders/add_to_cart_controller.dart';
-import 'package:crafty_bay/Presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/product_details_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/notification_utils.dart';
@@ -273,7 +273,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     if (isLoggedInUser) {
       AuthController.accessToken;
-      bool result = await Get.find<AddToCartController>().addToCart(
+      final result = await Get.find<AddToCartController>().addToCart(
         productID: productID,
         color: _selectedColor,
         size: _selectedSize,

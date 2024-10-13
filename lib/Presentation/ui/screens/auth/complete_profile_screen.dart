@@ -1,6 +1,8 @@
+import 'package:crafty_bay/Presentation/state_holders/auth/create_profile_controller.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/auth_header.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/complete_profile/complete_profile_form.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key});
@@ -8,6 +10,7 @@ class CompleteProfileScreen extends StatefulWidget {
   @override
   State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
 }
+
 
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final TextEditingController _firstNameTEController = TextEditingController();
@@ -17,6 +20,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final TextEditingController _shippingTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final CreateProfileController _createProfileController = Get.find<CreateProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,25 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     );
   }
 
-  void _onTapCompleteButton() {}
+  Future<void> _onTapCompleteButton() async {
+   bool isCreated = await _createProfileController.createProfile(
+      firstName: _firstNameTEController.text.trim(),
+      lastName: _lastNameTEController.text.trim(),
+      mobile: _mobileTEController.text.trim(),
+      city: _cityTEController.text.trim(),
+      shippingAddress: _shippingTEController.text.trim(),
+      token: Get.arguments['token'],
+    );
+
+   if(isCreated){
+     debugPrint("Profile successfully created.");
+   } else{
+     debugPrint("Profile created failed.");
+   }
+
+
+
+  }
 
   @override
   void dispose() {

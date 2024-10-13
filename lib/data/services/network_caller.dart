@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:crafty_bay/Presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/auth_controller.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:crafty_bay/data/models/network_response.dart';
 import 'package:crafty_bay/data/services/logger_service.dart';
@@ -57,14 +57,14 @@ class NetworkCaller {
   }
 
   Future<NetworkResponse> postRequest(
-      {required String url, Map<String, dynamic>? body}) async {
+      {required String url, Map<String, dynamic>? body, String? token}) async {
     try {
       final Uri uri = Uri.parse(url);
       loggerServices.requestLog(url, {}, body ?? {}, '');
       final Response response = await post(
         uri,
         headers: {
-          'token': '${AuthController.accessToken}',
+          'token': '${token ?? AuthController.accessToken}',
           'content-type': 'application/json',
         },
         body: jsonEncode(body),

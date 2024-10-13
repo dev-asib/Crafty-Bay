@@ -1,4 +1,4 @@
-import 'package:crafty_bay/Presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/auth_controller.dart';
 import 'package:crafty_bay/data/Utils/urls.dart';
 import 'package:crafty_bay/data/models/network_response.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
@@ -12,7 +12,6 @@ class ReadProfileController extends GetxController {
   bool get inProgress => _inProgress;
 
   bool get isProfileCompleted => _isProfileCompleted;
-
 
   String? get errorMessage => _errorMessage;
 

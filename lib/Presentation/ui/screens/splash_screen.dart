@@ -1,4 +1,4 @@
-import 'package:crafty_bay/Presentation/state_holders/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/app_logo_widget.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';

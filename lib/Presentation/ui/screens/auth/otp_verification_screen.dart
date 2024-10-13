@@ -1,7 +1,7 @@
-import 'package:crafty_bay/Presentation/state_holders/email_verification_controller.dart';
-import 'package:crafty_bay/Presentation/state_holders/otp_verification_controller.dart';
-import 'package:crafty_bay/Presentation/state_holders/read_profile_controller.dart';
-import 'package:crafty_bay/Presentation/state_holders/timer_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/email_verification_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/otp_verification_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/read_profile_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/timer_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/auth_header.dart';
@@ -26,7 +26,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   final OtpVerificationController _otpVerificationController =
       Get.find<OtpVerificationController>();
 
-  final ReadProfileController _readProfileController = Get.find<ReadProfileController>();
+  final ReadProfileController _readProfileController =
+      Get.find<ReadProfileController>();
 
   @override
   void initState() {
@@ -131,14 +132,20 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
     );
 
     if (result) {
-      final bool readProfileResult = await _readProfileController.getProfileDetails(_otpVerificationController.accessToken);
-      if(readProfileResult){
-        if(_readProfileController.isProfileCompleted){
+      final bool readProfileResult = await _readProfileController
+          .getProfileDetails(_otpVerificationController.accessToken);
+      if (readProfileResult) {
+        if (_readProfileController.isProfileCompleted) {
           Get.offAllNamed(RoutesName.mainBottomNavScreen);
-        } else{
-          Get.toNamed(RoutesName.completeProfileScreen);
+        } else {
+          Get.toNamed(
+            RoutesName.completeProfileScreen,
+            arguments: {
+              'token': _otpVerificationController.accessToken,
+            },
+          );
         }
-      } else{
+      } else {
         if (mounted) {
           NotificationUtils.flushBarNotification(
             context: context,
