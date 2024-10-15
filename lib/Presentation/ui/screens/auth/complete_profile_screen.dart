@@ -85,7 +85,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
     if (isCreated) {
       await Get.find<ReadProfileController>().getProfileDetails(Get.arguments['token']);
-      Get.toNamed(RoutesName.productDetailsScreen);
+      Get.toNamed(RoutesName.mainBottomNavScreen);
       if (mounted) {
         NotificationUtils.flushBarNotification(
           context: context,

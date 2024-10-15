@@ -29,8 +29,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    productID = Get.arguments['productID'];
-    Get.find<ProductDetailsController>().getProductDetailsById(productID);
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      productID = Get.arguments['productID'];
+      Get.find<ProductDetailsController>().getProductDetailsById(productID);
+    });
   }
 
   @override

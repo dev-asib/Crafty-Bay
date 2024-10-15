@@ -25,23 +25,24 @@ class CreateProfileController extends GetxController {
     update();
 
     final NetworkResponse response =
-    await Get.find<NetworkCaller>().postRequest(
+        await Get.find<NetworkCaller>().postRequest(
       url: Urls.createProfileUrl,
       body: {
         "cus_name": "$firstName $lastName",
         "cus_add": "West Seowta, Manikganj",
-        "cus_city": "Manikganj",
+        "cus_city": city,
         "cus_state": "Manikganj",
         "cus_postcode": "1800",
         "cus_country": "Bangladesh",
         "cus_phone": mobile,
         "cus_fax": "01711111111",
-        "ship_name": "Dev Asib",
+        "ship_name": "Asib",
         "ship_add": shippingAddress,
-        "ship_city": city,
+        "ship_city": "Manikganj",
         "ship_state": "Manikganj",
         "ship_postcode": "1800",
-        "ship_country": "Bangladesh"
+        "ship_country": "Bangladesh",
+        "ship_phone": "01711111111", // Add this field
       },
       token: token,
     );
