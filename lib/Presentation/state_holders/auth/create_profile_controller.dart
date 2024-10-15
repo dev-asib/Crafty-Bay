@@ -25,28 +25,28 @@ class CreateProfileController extends GetxController {
     update();
 
     final NetworkResponse response =
-        await Get.find<NetworkCaller>().postRequest(
+    await Get.find<NetworkCaller>().postRequest(
       url: Urls.createProfileUrl,
       body: {
         "cus_name": "$firstName $lastName",
-        "cus_add": "Adabor,Dhaka",
-        "cus_city": "Dhaka",
-        "cus_state": "Dhaka",
-        "cus_postcode": "1200",
+        "cus_add": "West Seowta, Manikganj",
+        "cus_city": "Manikganj",
+        "cus_state": "Manikganj",
+        "cus_postcode": "1800",
         "cus_country": "Bangladesh",
         "cus_phone": mobile,
         "cus_fax": "01711111111",
-        "ship_name": "Rabbil Hasan",
+        "ship_name": "Dev Asib",
         "ship_add": shippingAddress,
         "ship_city": city,
-        "ship_state": "Dhaka",
-        "ship_postcode": "1200",
+        "ship_state": "Manikganj",
+        "ship_postcode": "1800",
         "ship_country": "Bangladesh"
       },
       token: token,
     );
 
-    if (response.isSuccess && response.responseBody['msg'] == 'success' && response.responseBody['data'] != null) {
+    if (response.isSuccess && response.responseBody['msg'] == 'success') {
       _errorMessage = null;
       isSuccess = true;
     } else {

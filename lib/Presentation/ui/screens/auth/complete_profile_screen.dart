@@ -1,6 +1,11 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/create_profile_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/read_profile_controller.dart';
+import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
+import 'package:crafty_bay/Presentation/ui/utils/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/auth_header.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/complete_profile/complete_profile_form.dart';
+import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +16,6 @@ class CompleteProfileScreen extends StatefulWidget {
   State<CompleteProfileScreen> createState() => _CompleteProfileScreenState();
 }
 
-
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
@@ -21,7 +25,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final CreateProfileController _createProfileController = Get.find<CreateProfileController>();
+  final CreateProfileController _createProfileController =
+  Get.find<CreateProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +60,21 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   Widget _buildCompleteButton() {
-    return ElevatedButton(
-      onPressed: _onTapCompleteButton,
-      child: const Text('Complete'),
-    );
+    return GetBuilder<CreateProfileController>(
+        builder: (createProfileController) {
+          return Visibility(
+            visible: !createProfileController.inProgress,
+            replacement: const CenteredCircularProgressIndicator(),
+            child: ElevatedButton(
+              onPressed: _onTapCompleteButton,
+              child: const Text('Complete'),
+            ),
+          );
+        });
   }
 
   Future<void> _onTapCompleteButton() async {
-   bool isCreated = await _createProfileController.createProfile(
+    bool isCreated = await _createProfileController.createProfile(
       firstName: _firstNameTEController.text.trim(),
       lastName: _lastNameTEController.text.trim(),
       mobile: _mobileTEController.text.trim(),
@@ -71,14 +83,30 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       token: Get.arguments['token'],
     );
 
-   if(isCreated){
-     debugPrint("Profile successfully created.");
-   } else{
-     debugPrint("Profile created failed.");
-   }
+    if (isCreated) {
+      await Get.find<ReadProfileController>().getProfileDetails(Get.arguments['token']);
+      Get.toNamed(RoutesName.productDetailsScreen);
+      if (mounted) {
+        NotificationUtils.flushBarNotification(
+          context: context,
+          title: "Congratulations",
+          message: "Profile Successfully Completed",
+        );
+      }
+      debugPrint("Profile successfully created.");
+    } else {
+      if (mounted) {
+        NotificationUtils.flushBarNotification(
+          context: context,
+          title: "Warning!",
+          message: "Profile create failed! Try again.",
+          backgroundColor: AppColors.redColor,
+        );
+      }
+      debugPrint("Profile create failed.");
+    }
 
-
-
+    debugPrint("Token ${Get.arguments['token']}");
   }
 
   @override

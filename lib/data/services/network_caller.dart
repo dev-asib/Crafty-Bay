@@ -38,7 +38,7 @@ class NetworkCaller {
       } else {
         loggerServices.responseLog(
             url, response.statusCode, response.body, response.headers, false);
-        if(response.statusCode == 401){
+        if (response.statusCode == 401) {
           _moveToNext();
         }
         return NetworkResponse(
@@ -60,11 +60,11 @@ class NetworkCaller {
       {required String url, Map<String, dynamic>? body, String? token}) async {
     try {
       final Uri uri = Uri.parse(url);
-      loggerServices.requestLog(url, {}, body ?? {}, '');
+      loggerServices.requestLog(url, {}, body ?? {}, token ?? '');
       final Response response = await post(
         uri,
         headers: {
-          'token': '${token ?? AuthController.accessToken}',
+          'token': "${token ?? AuthController.accessToken}",
           'content-type': 'application/json',
         },
         body: jsonEncode(body),
@@ -81,7 +81,7 @@ class NetworkCaller {
       } else {
         loggerServices.responseLog(
             url, response.statusCode, response.body, response.headers, false);
-        if(response.statusCode == 401){
+        if (response.statusCode == 401) {
           _moveToNext();
         }
         return NetworkResponse(
@@ -99,9 +99,8 @@ class NetworkCaller {
     }
   }
 
-  Future<void> _moveToNext () async{
+  Future<void> _moveToNext() async {
     authController.clearUserData();
     getx.Get.toNamed(RoutesName.emailVerificationScreen);
   }
-
 }
