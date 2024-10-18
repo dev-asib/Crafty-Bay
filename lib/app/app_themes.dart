@@ -2,19 +2,67 @@ import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppThemes {
-  static ThemeData lightThemeData() {
+  static ThemeData lightThemeData(BuildContext context) {
     return ThemeData(
       colorSchemeSeed: AppColors.themeColor,
       scaffoldBackgroundColor: AppColors.whiteColor,
       progressIndicatorTheme: _progressIndicatorThemeData(),
-      textTheme: TextTheme(
-        headlineLarge: _headLineLargeTextStyle(),
-      ),
+      textTheme: _buildTextTheme(),
       inputDecorationTheme: _inputDecorationTheme(),
       elevatedButtonTheme: _elevatedButtonThemeData(),
       textButtonTheme: _textButtonThemeData(),
       appBarTheme: _appBarTheme(),
       floatingActionButtonTheme: _floatingActionButtonThemeData(),
+      tabBarTheme: _buildTabBarTheme(),
+    );
+  }
+
+  static ThemeData darkThemeData(BuildContext context) {
+    return ThemeData(
+      colorSchemeSeed: AppColors.themeColor,
+      scaffoldBackgroundColor: AppColors.whiteColor,
+      progressIndicatorTheme: _progressIndicatorThemeData(),
+      textTheme: _buildTextTheme(),
+      inputDecorationTheme: _inputDecorationTheme(),
+      elevatedButtonTheme: _elevatedButtonThemeData(),
+      textButtonTheme: _textButtonThemeData(),
+      appBarTheme: _appBarTheme(),
+      floatingActionButtonTheme: _floatingActionButtonThemeData(),
+      tabBarTheme: _buildTabBarTheme(),
+    );
+  }
+
+  static TextTheme _buildTextTheme() {
+    return TextTheme(
+      titleLarge: _buildTitleLargeTextStyle(),
+      titleMedium: _buildTitleMediumTextStyle(),
+      headlineLarge: _headLineLargeTextStyle(),
+    );
+  }
+
+  static TextStyle _buildTitleMediumTextStyle() =>
+      const TextStyle(fontWeight: FontWeight.bold);
+
+  static TextStyle _buildTitleLargeTextStyle() {
+    return const TextStyle(
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  static TabBarTheme _buildTabBarTheme() {
+    return const TabBarTheme(
+      indicatorSize: TabBarIndicatorSize.tab,
+      indicator: BoxDecoration(
+        color: AppColors.themeColor,
+      ),
+      labelColor: Colors.white,
+      labelStyle: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      unselectedLabelColor: AppColors.greyColor,
+      unselectedLabelStyle:
+          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
     );
   }
 
@@ -26,22 +74,6 @@ class AppThemes {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(100),
       ),
-    );
-  }
-
-  static ThemeData darkThemeData() {
-    return ThemeData(
-      colorSchemeSeed: AppColors.themeColor,
-      scaffoldBackgroundColor: AppColors.whiteColor,
-      progressIndicatorTheme: _progressIndicatorThemeData(),
-      textTheme: TextTheme(
-        headlineLarge: _headLineLargeTextStyle(),
-      ),
-      inputDecorationTheme: _inputDecorationTheme(),
-      elevatedButtonTheme: _elevatedButtonThemeData(),
-      textButtonTheme: _textButtonThemeData(),
-      appBarTheme: _appBarTheme(),
-      floatingActionButtonTheme: _floatingActionButtonThemeData(),
     );
   }
 

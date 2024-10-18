@@ -5,8 +5,8 @@ import 'package:crafty_bay/Presentation/ui/widgets/custom_text_form_field_widget
 import 'package:crafty_bay/Presentation/ui/widgets/info_section_title.dart';
 import 'package:flutter/material.dart';
 
-class CompleteProfileForm extends StatelessWidget {
-  const CompleteProfileForm({
+class EditProfileForm extends StatelessWidget {
+  const EditProfileForm({
     super.key,
     required this.formKey,
     required this.customerNameTEController,
@@ -47,11 +47,10 @@ class CompleteProfileForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const InfoSectionHeader(title: 'Customer Info'),
+          const InfoSectionHeader(title: "User Info"),
           CustomTextFormFieldWidget(
             textController: customerNameTEController,
             hintText: "Full Name",

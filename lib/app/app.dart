@@ -12,8 +12,8 @@ class CraftyBayApp extends StatelessWidget {
     return GetMaterialApp(
       getPages: AppRoutes.appRoutes(),
       initialBinding: AppBindings(),
-      theme: AppThemes.lightThemeData(),
-      darkTheme: AppThemes.darkThemeData(),
+      theme: AppThemes.lightThemeData(context),
+      darkTheme: AppThemes.darkThemeData(context),
       themeMode: ThemeMode.system,
     );
   }

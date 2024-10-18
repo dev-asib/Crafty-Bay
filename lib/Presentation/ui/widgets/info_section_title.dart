@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 
-class InfoSectionTitle extends StatelessWidget {
-  const InfoSectionTitle({
+class InfoSectionHeader extends StatelessWidget {
+  const InfoSectionHeader({
     super.key,
-    required this.textTheme,
     required this.title,
   });
 
-  final TextStyle? textTheme;
-  final String title;
+ final String title;
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(top: 16.0, bottom: 8.0),
       child: Text(
         title,
-        style: textTheme?.copyWith(
+        style: textTheme.titleLarge?.copyWith(
           fontWeight: FontWeight.bold,
         ),
       ),
