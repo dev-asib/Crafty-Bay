@@ -12,11 +12,21 @@ class CreateProfileController extends GetxController {
   String? get errorMessage => _errorMessage;
 
   Future<bool> createProfile({
-    required String firstName,
-    required String lastName,
-    required String mobile,
-    required String city,
+    required String customerName,
+    required String customerAddress,
+    required String customerCity,
+    required String customerState,
+    required String customerPostCode,
+    required String customerCountry,
+    required String customerPhone,
+    required String customerFax,
+    required String shippingName,
     required String shippingAddress,
+    required String shippingCity,
+    required String shippingState,
+    required String shippingPostCode,
+    required String shippingCountry,
+    required String shippingPhone,
     required String token,
   }) async {
     bool isSuccess = false;
@@ -28,21 +38,21 @@ class CreateProfileController extends GetxController {
         await Get.find<NetworkCaller>().postRequest(
       url: Urls.createProfileUrl,
       body: {
-        "cus_name": "$firstName $lastName",
-        "cus_add": "West Seowta, Manikganj",
-        "cus_city": city,
-        "cus_state": "Manikganj",
-        "cus_postcode": "1800",
-        "cus_country": "Bangladesh",
-        "cus_phone": mobile,
-        "cus_fax": "01711111111",
-        "ship_name": "Asib",
+        "cus_name": customerName,
+        "cus_add": customerAddress,
+        "cus_city": customerCity,
+        "cus_state": customerState,
+        "cus_postcode": customerPostCode,
+        "cus_country": customerCountry,
+        "cus_phone": customerPhone,
+        "cus_fax": customerFax,
+        "ship_name": shippingName,
         "ship_add": shippingAddress,
-        "ship_city": "Manikganj",
-        "ship_state": "Manikganj",
-        "ship_postcode": "1800",
-        "ship_country": "Bangladesh",
-        "ship_phone": "01711111111", // Add this field
+        "ship_city": shippingCity,
+        "ship_state": shippingState,
+        "ship_postcode": shippingPostCode,
+        "ship_country": shippingCountry,
+        "ship_phone": shippingPhone, // Add this field
       },
       token: token,
     );

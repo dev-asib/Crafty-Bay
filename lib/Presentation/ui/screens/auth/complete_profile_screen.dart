@@ -4,7 +4,7 @@ import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/auth_header.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
-import 'package:crafty_bay/Presentation/ui/widgets/complete_profile/complete_profile_form.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/complete_profile/complete_profile_form/complete_profile_form.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,16 +17,40 @@ class CompleteProfileScreen extends StatefulWidget {
 }
 
 class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
-  final TextEditingController _firstNameTEController = TextEditingController();
-  final TextEditingController _lastNameTEController = TextEditingController();
-  final TextEditingController _mobileTEController = TextEditingController();
-  final TextEditingController _cityTEController = TextEditingController();
-  final TextEditingController _shippingTEController = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _customerNameTEController =
+      TextEditingController();
+  final TextEditingController _customerAddressTEController =
+      TextEditingController();
+  final TextEditingController _customerCityTEController =
+      TextEditingController();
+  final TextEditingController _customerStateTEController =
+      TextEditingController();
+  final TextEditingController _customerPostCodeTEController =
+      TextEditingController();
+  final TextEditingController _customerCountryTEController =
+      TextEditingController();
+  final TextEditingController _customerPhoneTEController =
+      TextEditingController();
+  final TextEditingController _customerFaxTEController =
+      TextEditingController();
+  final TextEditingController _shippingNameTEController =
+      TextEditingController();
+  final TextEditingController _shippingAddressTEController =
+      TextEditingController();
+  final TextEditingController _shippingCityTEController =
+      TextEditingController();
+  final TextEditingController _shippingStateTEController =
+      TextEditingController();
+  final TextEditingController _shippingPostCodeTEController =
+      TextEditingController();
+  final TextEditingController _shippingCountryTEController =
+      TextEditingController();
+  final TextEditingController _shippingPhoneTEController =
+      TextEditingController();
 
   final CreateProfileController _createProfileController =
-  Get.find<CreateProfileController>();
+      Get.find<CreateProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +65,23 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                 title: "Complete Profile",
                 subTitle: "Get started with us by providing your information.",
               ),
-              const SizedBox(height: 16),
               CompleteProfileForm(
                 formKey: _formKey,
-                firstNameTEController: _firstNameTEController,
-                lastNameTEController: _lastNameTEController,
-                mobileTEController: _mobileTEController,
-                cityTEController: _cityTEController,
-                shippingTEController: _shippingTEController,
+                customerNameTEController: _customerNameTEController,
+                customerAddressTEController: _customerAddressTEController,
+                customerCityTEController: _customerCityTEController,
+                customerStateTEController: _customerStateTEController,
+                customerPostCodeTEController: _customerPostCodeTEController,
+                customerCountryTEController: _customerCountryTEController,
+                customerPhoneTEController: _customerPhoneTEController,
+                customerFaxTEController: _customerFaxTEController,
+                shippingNameTEController: _shippingNameTEController,
+                shippingAddressTEController: _shippingAddressTEController,
+                shippingCityTEController: _shippingCityTEController,
+                shippingStateTEController: _shippingStateTEController,
+                shippingPostCodeTEController: _shippingPostCodeTEController,
+                shippingCountryTEController: _shippingCountryTEController,
+                shippingPhoneTEController: _shippingPhoneTEController,
               ),
               const SizedBox(height: 16),
               _buildCompleteButton(),
@@ -62,29 +95,39 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   Widget _buildCompleteButton() {
     return GetBuilder<CreateProfileController>(
         builder: (createProfileController) {
-          return Visibility(
-            visible: !createProfileController.inProgress,
-            replacement: const CenteredCircularProgressIndicator(),
-            child: ElevatedButton(
-              onPressed: _onTapCompleteButton,
-              child: const Text('Complete'),
-            ),
-          );
-        });
+      return Visibility(
+        visible: !createProfileController.inProgress,
+        replacement: const CenteredCircularProgressIndicator(),
+        child: ElevatedButton(
+          onPressed: _onTapCompleteButton,
+          child: const Text('Complete'),
+        ),
+      );
+    });
   }
 
   Future<void> _onTapCompleteButton() async {
     bool isCreated = await _createProfileController.createProfile(
-      firstName: _firstNameTEController.text.trim(),
-      lastName: _lastNameTEController.text.trim(),
-      mobile: _mobileTEController.text.trim(),
-      city: _cityTEController.text.trim(),
-      shippingAddress: _shippingTEController.text.trim(),
+      customerName: _customerNameTEController.text.trim(),
+      customerAddress: _customerAddressTEController.text.trim(),
+      customerCity: _customerCityTEController.text.trim(),
+      customerState: _customerStateTEController.text.trim(),
+      customerPostCode: _customerPostCodeTEController.text.trim(),
+      customerCountry: _customerCountryTEController.text.trim(),
+      customerPhone: _customerPhoneTEController.text.trim(),
+      customerFax: _customerFaxTEController.text.trim(),
+      shippingName: _shippingNameTEController.text.trim(),
+      shippingAddress: _shippingAddressTEController.text.trim(),
+      shippingCity: _shippingCityTEController.text.trim(),
+      shippingState: _shippingStateTEController.text.trim(),
+      shippingPostCode: _shippingPostCodeTEController.text.trim(),
+      shippingCountry: _shippingCountryTEController.text.trim(),
+      shippingPhone: _shippingPhoneTEController.text.trim(),
       token: Get.arguments['token'],
     );
-
     if (isCreated) {
-      await Get.find<ReadProfileController>().getProfileDetails(Get.arguments['token']);
+      await Get.find<ReadProfileController>()
+          .getProfileDetails(Get.arguments['token']);
       Get.toNamed(RoutesName.mainBottomNavScreen);
       if (mounted) {
         NotificationUtils.flushBarNotification(
@@ -111,11 +154,21 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   @override
   void dispose() {
-    _firstNameTEController.dispose();
-    _lastNameTEController.dispose();
-    _mobileTEController.dispose();
-    _cityTEController.dispose();
-    _shippingTEController.dispose();
+    _customerNameTEController.dispose();
+    _customerAddressTEController.dispose();
+    _customerCityTEController.dispose();
+    _customerStateTEController.dispose();
+    _customerPostCodeTEController.dispose();
+    _customerCountryTEController.dispose();
+    _customerPhoneTEController.dispose();
+    _customerFaxTEController.dispose();
+    _shippingNameTEController.dispose();
+    _shippingAddressTEController.dispose();
+    _shippingCityTEController.dispose();
+    _shippingStateTEController.dispose();
+    _shippingPostCodeTEController.dispose();
+    _shippingCountryTEController.dispose();
+    _shippingPhoneTEController.dispose();
     super.dispose();
   }
 }

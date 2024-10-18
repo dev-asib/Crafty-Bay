@@ -1,4 +1,4 @@
-import 'package:crafty_bay/Presentation/ui/utils/validator_constants.dart';
+import 'package:crafty_bay/Presentation/ui/utils/validators/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class EmailVerificationForm extends StatelessWidget {
@@ -30,13 +30,11 @@ class EmailVerificationForm extends StatelessWidget {
 
   String? _emailValidation(String? value) {
     if (value?.isEmpty ?? true) {
-      return "Enter a email address";
+      return "Enter your email address";
     }
-
-    if (!ValidatorConstants.emailRegExp.hasMatch(_emailTEController.text)) {
+    if (!EmailValidator.validateEmail(value!)) {
       return "Enter a valid email address";
     }
-
     return null;
   }
 }

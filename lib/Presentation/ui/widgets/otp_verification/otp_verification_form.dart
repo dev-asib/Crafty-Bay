@@ -1,4 +1,5 @@
 import 'package:crafty_bay/Presentation/ui/utils/app_colors.dart';
+import 'package:crafty_bay/Presentation/ui/utils/validators/opt_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -32,6 +33,17 @@ class OtpVerificationForm extends StatelessWidget {
       enableActiveFill: true,
       controller: _otpTEController,
       appContext: context,
+      validator: _optValidator,
     );
+  }
+
+  String? _optValidator(String? value) {
+    if (value?.trim().isEmpty ?? true) {
+      return "Enter your OTP";
+    }
+    if (!OtpValidator.validateOtp(value!)) {
+      return "Enter a valid 6-digit otp";
+    }
+    return null;
   }
 }
