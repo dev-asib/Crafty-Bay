@@ -1,14 +1,15 @@
 import 'package:crafty_bay/Presentation/ui/widgets/info_section_title.dart';
+import 'package:crafty_bay/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 
-class UserInformationView extends StatefulWidget {
-  const UserInformationView({super.key});
+class UserInformationView extends StatelessWidget {
+  const UserInformationView({
+    super.key,
+    required this.user,
+  });
 
-  @override
-  State<UserInformationView> createState() => _UserInformationViewState();
-}
+  final UserModel user;
 
-class _UserInformationViewState extends State<UserInformationView> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
@@ -21,35 +22,35 @@ class _UserInformationViewState extends State<UserInformationView> {
             const InfoSectionHeader(title: "User Information"),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Name: Dev Asib",
+              title: "Name: ${user.cusName}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Address: West Seowta, Manikganj",
+              title: "Address: ${user.cusAdd}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "City: Manikganj",
+              title: "City: ${user.cusCity}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "State: Manikganj Sadar",
+              title: "State: ${user.cusState}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Post Code: 1800",
+              title: "Post Code: ${user.cusPostcode}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Country: Bangladesh",
+              title: "Country: ${user.cusCountry}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Phone: 01518914064",
+              title: "Phone: ${user.cusPhone}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Fax: 01518914064",
+              title: "Fax: ${user.cusFax}",
             ),
           ],
         ),
@@ -59,31 +60,31 @@ class _UserInformationViewState extends State<UserInformationView> {
             const InfoSectionHeader(title: "Shipping Information"),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Name: Dev Asib",
+              title: "Name: ${user.shipName}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Address: West Seowta, Manikganj",
+              title: "Address:  ${user.shipAdd}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "City: Manikganj",
+              title: "City:  ${user.shipCity}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "State: Manikganj Sadar",
+              title: "State:  ${user.shipState}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Post Code: 1800",
+              title: "Post Code:  ${user.shipPostcode}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Country: Bangladesh",
+              title: "Country:  ${user.shipCountry}",
             ),
             buildInfoTitle(
               textTheme: textTheme,
-              title: "Phone: 01518914064",
+              title: "Phone:  ${user.shipPhone}",
             ),
           ],
         ),

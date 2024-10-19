@@ -1,6 +1,7 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth_controller.dart';
 import 'package:crafty_bay/data/Utils/urls.dart';
 import 'package:crafty_bay/data/models/network_response.dart';
+import 'package:crafty_bay/data/models/user_model.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:get/get.dart';
 
@@ -29,7 +30,11 @@ class ReadProfileController extends GetxController {
     if (response.isSuccess) {
       if (response.responseBody['data'] != null) {
         _isProfileCompleted = true;
+
+        UserModel userModel = UserModel.fromJson(response.responseBody['data']);
+
         await Get.find<AuthController>().saveAccessToken(token);
+        await Get.find<AuthController>().saveUserData(userModel);
       }
 
       _errorMessage = null;

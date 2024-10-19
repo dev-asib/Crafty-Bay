@@ -1,9 +1,11 @@
+import 'package:crafty_bay/Presentation/state_holders/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/new_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/popular_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/special_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/home/user_warning_message.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/widgets.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -146,9 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
       actions: [
         AppBarIcon(
           iconData: Icons.person,
-          onTap: () {
-            Get.toNamed(RoutesName.userProfileScreen);
-          },
+          onTap: _onTapProfileIcon,
         ),
         const SizedBox(width: 8),
         AppBarIcon(
@@ -162,5 +162,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+  void _onTapProfileIcon() async {
+    if (AuthController.accessToken == null) {
+      unauthorizedWarningMessage(
+        context: context,
+        onTap: () => Get.toNamed(RoutesName.emailVerificationScreen),
+      );
+    } else {
+      Get.toNamed(RoutesName.userProfileScreen);
+    }
   }
 }

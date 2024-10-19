@@ -4,6 +4,7 @@ import 'package:crafty_bay/Presentation/state_holders/auth/create_profile_contro
 import 'package:crafty_bay/Presentation/state_holders/auth/otp_verification_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/auth/read_profile_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/auth/timer_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/user_profile_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/category_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/auth/email_verification_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/list_product_by_category_controller.dart';
@@ -47,5 +48,6 @@ class AppBindings extends Bindings {
     Get.put(OtpVerificationController());
     Get.put(CreateProfileController());
     Get.put(ReadProfileController());
+    Get.put(UserProfileController());
   }
 }

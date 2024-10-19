@@ -27,7 +27,7 @@ class _ProductImageSliderState extends State<ProductImageSlider> {
               onPageChanged: (index, reason) {
                 _selectedIndex.value = index;
               },
-              viewportFraction: 1.02),
+              viewportFraction: 1.1),
           items: widget.sliderUrls.map(
             (imageUrl) {
               return Builder(
@@ -36,12 +36,25 @@ class _ProductImageSliderState extends State<ProductImageSlider> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: Colors.grey.shade100,
-                      image:  DecorationImage(
+                      image: DecorationImage(
                         image: NetworkImage(imageUrl),
                         fit: BoxFit.fill,
                       ),
                     ),
                     alignment: Alignment.center,
+                    // child: Image.network(
+                    //   imageUrl,
+                    //   fit: BoxFit.fill,
+                    //   errorBuilder: (context, error, stackTrace) {
+                    //     return const Center(
+                    //       child: Icon(
+                    //         Icons.broken_image,
+                    //         size: 50,
+                    //         color: AppColors.redColor,
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                   );
                 },
               );

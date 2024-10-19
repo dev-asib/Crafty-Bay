@@ -47,7 +47,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
         if (productDetailsController.errorMessage != null) {
           return Center(
-            child: Text(productDetailsController.errorMessage!),
+            child: Column(
+              children: [
+                Text(productDetailsController.errorMessage!),
+                const SizedBox(height: 8),
+                ElevatedButton(onPressed: (){
+                  Get.find<ProductDetailsController>().getProductDetailsById(productID);
+                }, child: const Text("Retry"),),
+              ],
+            ),
           );
         }
 
@@ -69,8 +77,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     List<String> sizes = productDetailsModel.size!.split(',');
     List<String> colors = productDetailsModel.color!.split(',');
-    _selectedSize = sizes.first;
-    _selectedColor = colors.first;
+    _selectedSize = _selectedSize.isEmpty ? sizes.first: _selectedSize;
+    _selectedColor = _selectedColor.isEmpty ? colors.first: _selectedColor;
 
     return SingleChildScrollView(
       child: Padding(
