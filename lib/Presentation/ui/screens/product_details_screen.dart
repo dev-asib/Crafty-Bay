@@ -20,7 +20,6 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-
   late int productID;
   String _selectedColor = '';
   String _selectedSize = '';
@@ -29,7 +28,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       productID = Get.arguments['productID'];
       Get.find<ProductDetailsController>().getProductDetailsById(productID);
     });
@@ -51,9 +50,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               children: [
                 Text(productDetailsController.errorMessage!),
                 const SizedBox(height: 8),
-                ElevatedButton(onPressed: (){
-                  Get.find<ProductDetailsController>().getProductDetailsById(productID);
-                }, child: const Text("Retry"),),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.find<ProductDetailsController>()
+                        .getProductDetailsById(productID);
+                  },
+                  child: const Text("Retry"),
+                ),
               ],
             ),
           );
@@ -74,11 +77,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildDetailsSection(ProductDetailsModel productDetailsModel) {
-
     List<String> sizes = productDetailsModel.size!.split(',');
     List<String> colors = productDetailsModel.color!.split(',');
-    _selectedSize = _selectedSize.isEmpty ? sizes.first: _selectedSize;
-    _selectedColor = _selectedColor.isEmpty ? colors.first: _selectedColor;
+    _selectedSize = _selectedSize.isEmpty ? sizes.first : _selectedSize;
+    _selectedColor = _selectedColor.isEmpty ? colors.first : _selectedColor;
 
     return SingleChildScrollView(
       child: Padding(
@@ -105,7 +107,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 _selectedColor = selectedColor;
               },
             ),
-
             const SizedBox(height: 16),
             SizePicker(
               sizes: sizes,
@@ -313,6 +314,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void _onTapReviewButton() {
-    Get.toNamed(RoutesName.reviewsScreen);
+    Get.toNamed(
+      RoutesName.reviewsScreen,
+      arguments: {
+        'productID': productID,
+      },
+    );
   }
 }

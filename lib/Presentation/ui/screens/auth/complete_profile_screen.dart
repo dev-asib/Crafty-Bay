@@ -107,49 +107,51 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   }
 
   Future<void> _onTapCompleteButton() async {
-    bool isCreated = await _createProfileController.createProfile(
-      customerName: _customerNameTEController.text.trim(),
-      customerAddress: _customerAddressTEController.text.trim(),
-      customerCity: _customerCityTEController.text.trim(),
-      customerState: _customerStateTEController.text.trim(),
-      customerPostCode: _customerPostCodeTEController.text.trim(),
-      customerCountry: _customerCountryTEController.text.trim(),
-      customerPhone: _customerPhoneTEController.text.trim(),
-      customerFax: _customerFaxTEController.text.trim(),
-      shippingName: _shippingNameTEController.text.trim(),
-      shippingAddress: _shippingAddressTEController.text.trim(),
-      shippingCity: _shippingCityTEController.text.trim(),
-      shippingState: _shippingStateTEController.text.trim(),
-      shippingPostCode: _shippingPostCodeTEController.text.trim(),
-      shippingCountry: _shippingCountryTEController.text.trim(),
-      shippingPhone: _shippingPhoneTEController.text.trim(),
-      token: Get.arguments['token'],
-    );
-    if (isCreated) {
-      await Get.find<ReadProfileController>()
-          .getProfileDetails(Get.arguments['token']);
-      Get.toNamed(RoutesName.mainBottomNavScreen);
-      if (mounted) {
-        NotificationUtils.flushBarNotification(
-          context: context,
-          title: "Congratulations",
-          message: "Profile Successfully Completed",
-        );
+    if(_formKey.currentState!.validate()){
+      bool isCreated = await _createProfileController.createProfile(
+        customerName: _customerNameTEController.text.trim(),
+        customerAddress: _customerAddressTEController.text.trim(),
+        customerCity: _customerCityTEController.text.trim(),
+        customerState: _customerStateTEController.text.trim(),
+        customerPostCode: _customerPostCodeTEController.text.trim(),
+        customerCountry: _customerCountryTEController.text.trim(),
+        customerPhone: _customerPhoneTEController.text.trim(),
+        customerFax: _customerFaxTEController.text.trim(),
+        shippingName: _shippingNameTEController.text.trim(),
+        shippingAddress: _shippingAddressTEController.text.trim(),
+        shippingCity: _shippingCityTEController.text.trim(),
+        shippingState: _shippingStateTEController.text.trim(),
+        shippingPostCode: _shippingPostCodeTEController.text.trim(),
+        shippingCountry: _shippingCountryTEController.text.trim(),
+        shippingPhone: _shippingPhoneTEController.text.trim(),
+        token: Get.arguments['token'],
+      );
+      if (isCreated) {
+        await Get.find<ReadProfileController>()
+            .getProfileDetails(Get.arguments['token']);
+        Get.toNamed(RoutesName.mainBottomNavScreen);
+        if (mounted) {
+          NotificationUtils.flushBarNotification(
+            context: context,
+            title: "Congratulations",
+            message: "Profile Successfully Completed",
+          );
+        }
+        debugPrint("Profile successfully created.");
+      } else {
+        if (mounted) {
+          NotificationUtils.flushBarNotification(
+            context: context,
+            title: "Warning!",
+            message: "Profile create failed! Try again.",
+            backgroundColor: AppColors.redColor,
+          );
+        }
+        debugPrint("Profile create failed.");
       }
-      debugPrint("Profile successfully created.");
-    } else {
-      if (mounted) {
-        NotificationUtils.flushBarNotification(
-          context: context,
-          title: "Warning!",
-          message: "Profile create failed! Try again.",
-          backgroundColor: AppColors.redColor,
-        );
-      }
-      debugPrint("Profile create failed.");
-    }
 
-    debugPrint("Token ${Get.arguments['token']}");
+      debugPrint("Token ${Get.arguments['token']}");
+    }
   }
 
   @override

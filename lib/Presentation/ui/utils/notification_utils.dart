@@ -14,6 +14,8 @@ class NotificationUtils {
       message: message,
       backgroundColor: backgroundColor,
       duration: const Duration(seconds: 3),
+      margin: const EdgeInsets.all(20),
+      borderRadius: BorderRadius.circular(12),
     ).show(context);
   }
 }

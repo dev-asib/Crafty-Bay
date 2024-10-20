@@ -40,4 +40,3 @@ class ListProductByCategoryController extends GetxController {
     return isSuccess;
   }
 }
-

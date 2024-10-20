@@ -5,6 +5,8 @@ class Urls {
   static const String readProfileUrl = "$_baseUrl/ReadProfile";
   static const String addToCartUrl = "$_baseUrl/CreateCartList";
   static const String createProfileUrl = "$_baseUrl/CreateProfile";
+  static const String updateProfileUrl = "$_baseUrl/CreateProfile";
+  static const String createProductReviewUrl = "$_baseUrl/CreateProductReview";
 
   static String listProductByRemarkUrl(String remark) =>
       "$_baseUrl/ListProductByRemark/$remark";
@@ -20,4 +22,7 @@ class Urls {
 
   static String verifyOtpUrl(String email, String otp) =>
       "$_baseUrl/VerifyLogin/$email/$otp";
+
+  static String listReviewByProductUrl(int id) =>
+      "$_baseUrl/ListReviewByProduct/$id";
 }

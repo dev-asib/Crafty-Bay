@@ -17,10 +17,10 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.toNamed(
-          RoutesName.productDetailsScreen,
-          arguments: {
-            'productID' : product.id!
-          }
+            RoutesName.productDetailsScreen,
+            arguments: {
+              'productID' : product.id!
+            }
         );
       },
       child: Card(

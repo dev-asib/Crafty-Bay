@@ -10,7 +10,7 @@ import 'package:crafty_bay/Presentation/ui/screens/product_details_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/product_list_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/reviews_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/splash_screen.dart';
-import 'package:crafty_bay/Presentation/ui/screens/user_profile_screen.dart';
+import 'package:crafty_bay/Presentation/ui/screens/auth/user_profile_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/wish_list_screen.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:get/get.dart';

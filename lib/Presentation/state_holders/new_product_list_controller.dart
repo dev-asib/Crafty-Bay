@@ -40,4 +40,3 @@ class NewProductListController extends GetxController {
     return isSuccess;
   }
 }
-

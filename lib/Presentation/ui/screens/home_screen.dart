@@ -5,7 +5,7 @@ import 'package:crafty_bay/Presentation/state_holders/new_product_list_controlle
 import 'package:crafty_bay/Presentation/state_holders/popular_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/special_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/centered_circular_progress_indicator.dart';
-import 'package:crafty_bay/Presentation/ui/widgets/home/user_warning_message.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/unauthorized_warning_message.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/widgets.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
