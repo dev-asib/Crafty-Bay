@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:crafty_bay/Presentation/state_holders/auth/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
-import 'package:crafty_bay/data/models/network_response.dart';
+import 'package:crafty_bay/data/entities/network/network_response.dart';
 import 'package:crafty_bay/data/services/logger_service.dart';
 import 'package:get/get.dart' as getx;
 import 'package:http/http.dart';

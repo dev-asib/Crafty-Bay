@@ -1,4 +1,4 @@
-import 'package:crafty_bay/Presentation/ui/utils/regex_patterns.dart';
+import 'package:crafty_bay/Presentation/ui/utils/regex/regex_patterns.dart';
 
 class PhoneNumberValidator {
   static bool validatePhoneNumber(String phoneNumber) {
