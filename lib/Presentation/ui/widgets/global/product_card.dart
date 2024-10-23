@@ -1,6 +1,7 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/wish_list/create_wish_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/wish_list/delete_wish_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/wish_list/wish_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
@@ -27,6 +28,25 @@ class _ProductCardState extends State<ProductCard> {
       Get.find<DeleteWishListController>();
 
   bool _isAddedWishProduct = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(AuthController.accessToken != null){
+      Get.find<WishListController>().getWishList(token: AuthController.accessToken!);
+      _checkIfProductIsInWishList();
+    }
+
+  }
+
+
+  void _checkIfProductIsInWishList(){
+    _createWishListController.isAddedWishProduct(widget.product.id!);
+    setState(() {
+      _isAddedWishProduct = _createWishListController.isProductAdded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,26 +167,35 @@ class _ProductCardState extends State<ProductCard> {
     required int productID,
   }) async {
     if (AuthController.accessToken != null) {
-      bool isAddedWishList = await controller.createWishList(
-        token: AuthController.accessToken!,
-        productID: productID,
-      );
+   try{
+     bool isAddedWishList = await controller.createWishList(
+       token: AuthController.accessToken!,
+       productID: productID,
+     );
 
-      if (isAddedWishList) {
-        _isAddedWishProduct = true;
-        setState(() {});
+     if (isAddedWishList) {
 
-        NotificationUtils.flushBarNotification(
-          title: "Congratulations",
-          message: "Product successfully added to wish list.",
-        );
-      } else {
-        NotificationUtils.flushBarNotification(
-          title: "Failed",
-          message: "Wish product added failed. Try again.",
-          backgroundColor: AppColors.redColor,
-        );
-      }
+       setState(() {
+         _isAddedWishProduct = true;
+       });
+
+       NotificationUtils.flushBarNotification(
+         title: "Congratulations",
+         message: "Product successfully added to wish list.",
+       );
+     } else {
+       NotificationUtils.flushBarNotification(
+         title: "Failed",
+         message: "Wish product added failed. Try again.",
+         backgroundColor: AppColors.redColor,
+       );
+     }
+   } catch(e){
+     NotificationUtils.flushBarNotification(
+         title: "Error",
+         message: "An unexpected error: $e",
+         backgroundColor: AppColors.redColor);
+   }
     } else {
       NotificationUtils.flushBarNotification(
         title: "Warning!",
@@ -183,23 +212,32 @@ class _ProductCardState extends State<ProductCard> {
     required int productID,
   }) async {
     if (AuthController.accessToken != null) {
-      bool isDeletedWishList = await controller.deleteWishList(
-        token: AuthController.accessToken!,
-        productID: productID,
-      );
-
-      if (isDeletedWishList) {
-        _isAddedWishProduct = false;
-        setState(() {});
-
-        NotificationUtils.flushBarNotification(
-          title: "Congratulations",
-          message: "Product successfully deleted from wish list.",
+      try{
+        bool isDeletedWishList = await controller.deleteWishList(
+          token: AuthController.accessToken!,
+          productID: productID,
         );
-      } else {
+
+        if (isDeletedWishList) {
+
+          setState(() {
+            _isAddedWishProduct = false;
+          });
+
+          NotificationUtils.flushBarNotification(
+            title: "Congratulations",
+            message: "Product successfully deleted from wish list.",
+          );
+        } else {
+          NotificationUtils.flushBarNotification(
+              title: "Failed",
+              message: "Wish product deleted failed! Try again.",
+              backgroundColor: AppColors.redColor);
+        }
+      } catch(e){
         NotificationUtils.flushBarNotification(
-            title: "Failed",
-            message: "Wish product deleted failed! Try again.",
+            title: "Error",
+            message: "An unexpected error: $e",
             backgroundColor: AppColors.redColor);
       }
     } else {

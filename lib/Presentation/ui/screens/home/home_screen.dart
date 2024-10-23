@@ -1,9 +1,11 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/category/category_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/home/new_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/home/popular_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/home/special_product_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/wish_list/create_wish_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/unauthorized_warning_message.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/widgets.dart';
@@ -19,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
