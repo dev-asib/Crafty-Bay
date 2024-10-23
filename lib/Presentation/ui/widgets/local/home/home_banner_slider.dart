@@ -125,8 +125,8 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
       width: 100,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: AppColors.whiteColor,
-          backgroundColor: AppColors.themeColor,
+          foregroundColor: AppColors.themeColor,
+          backgroundColor: AppColors.whiteColor,
         ),
         onPressed: () {},
         child: const Text("Buy now"),

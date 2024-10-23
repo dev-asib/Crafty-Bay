@@ -117,10 +117,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
   void _onTapAddToReviewButton() async {
     if (AuthController.accessToken == null) {
-      unauthorizedWarningMessage(
-        context: context,
-        onTap: () => Get.toNamed(RoutesName.emailVerificationScreen),
-      );
+      unauthorizedWarningMessage();
     } else {
       Get.toNamed(
         RoutesName.createReviewScreen,

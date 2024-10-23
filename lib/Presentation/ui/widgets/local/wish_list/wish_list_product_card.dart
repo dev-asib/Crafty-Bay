@@ -3,6 +3,7 @@ import 'package:crafty_bay/Presentation/state_holders/wish_list/delete_wish_list
 import 'package:crafty_bay/Presentation/state_holders/wish_list/wish_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/unauthorized_warning_message.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:crafty_bay/data/models/wish_list/wish_list_data_model.dart';
 import 'package:flutter/material.dart';
@@ -148,12 +149,7 @@ class WishListProductCard extends StatelessWidget {
         );
       }
     } else {
-      NotificationUtils.flushBarNotification(
-        title: "Warning!",
-        message:
-            "First of all, You have to create account. Then you will be able to add this product in your wish list.",
-        backgroundColor: AppColors.redColor,
-      );
+      unauthorizedWarningMessage();
     }
   }
 }
