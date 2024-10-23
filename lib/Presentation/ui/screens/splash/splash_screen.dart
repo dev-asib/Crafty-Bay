@@ -1,4 +1,5 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/internet_connectivity/connectivity_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/app_logo_widget.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
@@ -13,7 +14,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  final InternetConnectivityController _internetConnectivityController = Get.find<InternetConnectivityController>();
+
   Future<void> _moveToNextScreen() async {
+
+    while(!_internetConnectivityController.isDeviceConnected){
+      await Future.delayed(const Duration(seconds: 1));
+    }
+
     await Future.delayed(const Duration(seconds: 3));
     await Get.find<AuthController>().getAccessToken();
     Get.offNamed(RoutesName.mainBottomNavScreen);

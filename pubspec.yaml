@@ -23,6 +23,8 @@ dependencies:
   another_flushbar: ^1.12.30
   shared_preferences: ^2.3.2
   flutter_rating_bar: ^4.0.1
+  connectivity_plus: ^6.1.0
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   flutter_test:

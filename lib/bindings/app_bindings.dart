@@ -14,6 +14,7 @@ import 'package:crafty_bay/Presentation/state_holders/home/new_product_list_cont
 import 'package:crafty_bay/Presentation/state_holders/home/popular_product_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/home/slider_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/category/list_product_by_category_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/internet_connectivity/connectivity_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/product_details/add_to_cart_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/product_details/product_details_controller.dart';
@@ -30,6 +31,10 @@ import 'package:logger/logger.dart';
 class AppBindings extends Bindings {
   @override
   void dependencies() {
+
+    /// internet connectivity
+    Get.put(InternetConnectivityController());
+
     /// Logger setup
     Get.put(Logger());
     Get.put(LoggerService(logger: Get.find<Logger>()));
