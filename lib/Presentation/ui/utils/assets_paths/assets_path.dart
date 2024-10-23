@@ -4,6 +4,7 @@ class AssetsPath {
 
   static const String _images = '$_basePath/images';
   static const String _lotties = '$_basePath/lotties';
+  static const String _icons = '$_basePath/icons';
 
   static const String appLogo = '$_images/logo.svg';
   static const String appLogoNav = '$_images/logo_nav.svg';
@@ -15,5 +16,7 @@ class AssetsPath {
   static const String shoppingCart = '$_lotties/shopping_cart.json';
 
 
+  static const String emptyCart = '$_icons/empty_cart.png';
+  static const String emptyReview = '$_icons/empty_review.png';
 
 }

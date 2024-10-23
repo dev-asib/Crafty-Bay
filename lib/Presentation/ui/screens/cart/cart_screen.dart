@@ -3,6 +3,8 @@ import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/cart/cart_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,6 +41,14 @@ class _CartScreenState extends State<CartScreen> {
                   .map((item) => int.parse(item.price ?? '0'))
                   .reduce((value, element) => value + element)
               : 0;
+
+          if(cartListController.inProgress){
+            return const CenteredCircularProgressIndicator();
+          }
+
+          if(cartListController.cartList.isEmpty){
+            return const EmptyWidget(message: "Cart product not found.");
+          }
 
           return Stack(
             alignment: Alignment.center,

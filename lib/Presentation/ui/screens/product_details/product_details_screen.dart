@@ -4,6 +4,7 @@ import 'package:crafty_bay/Presentation/state_holders/product_details/product_de
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/product_image_slider.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/quantity_counter.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/size_picker.dart';
@@ -41,6 +42,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           builder: (productDetailsController) {
         if (productDetailsController.inProgress) {
           return const CenteredCircularProgressIndicator();
+        }
+
+        if (productDetailsController.productDetailsModel == null ||
+            productDetailsController.productDetailsModel!.product == null) {
+          return const EmptyWidget(message: "No product details available.");
         }
 
         if (productDetailsController.errorMessage != null) {

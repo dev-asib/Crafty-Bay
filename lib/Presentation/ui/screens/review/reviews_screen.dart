@@ -1,6 +1,9 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/review/product_review_controller.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/reviews/review_card.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/unauthorized_warning_message.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
@@ -30,28 +33,38 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: Column(
-        children: [
-          _buildReviewSection(),
-          _buildTotalReviewsAndAddReviewButton(),
-        ],
-      ),
+      body: GetBuilder<ProductReviewController>(
+          builder: (productReviewController) {
+        if (productReviewController.inProgress) {
+          return const CenteredCircularProgressIndicator();
+        }
+
+        if (productReviewController.reviewList.isEmpty) {
+          return const EmptyWidget(
+            imagePath: AssetsPath.emptyReview,
+            message: "Reviews not found.",
+          );
+        }
+        return Column(
+          children: [
+            _buildReviewSection(productReviewController),
+            _buildTotalReviewsAndAddReviewButton(),
+          ],
+        );
+      }),
     );
   }
 
-  Widget _buildReviewSection() {
+  Widget _buildReviewSection(ProductReviewController productReviewController) {
     return Expanded(
-      child: GetBuilder<ProductReviewController>(
-          builder: (productReviewController) {
-        return ListView.builder(
-          itemCount: productReviewController.reviewList.length,
-          itemBuilder: (context, index) {
-            return ReviewCard(
-              review: productReviewController.reviewList[index],
-            );
-          },
-        );
-      }),
+      child: ListView.builder(
+        itemCount: productReviewController.reviewList.length,
+        itemBuilder: (context, index) {
+          return ReviewCard(
+            review: productReviewController.reviewList[index],
+          );
+        },
+      ),
     );
   }
 
@@ -72,13 +85,12 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GetBuilder<ProductReviewController>(
-                builder: (productReviewController) {
-                  return Text(
-                    "Reviews (${productReviewController.reviewList.length})",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  );
-                }
-              ),
+                  builder: (productReviewController) {
+                return Text(
+                  "Reviews (${productReviewController.reviewList.length})",
+                  style: Theme.of(context).textTheme.titleMedium,
+                );
+              }),
             ],
           ),
           FloatingActionButton(

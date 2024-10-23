@@ -48,13 +48,21 @@ class ProductDetailsController extends GetxController {
         .getRequest(url: Urls.productDetailsByIdUrl(id));
 
     if (response.isSuccess) {
-      _errorMessage = null;
-      _productDetailsModel =
-          ProductDetailsModel.fromJson(response.responseBody['data'][0]);
-      _unitePrice =
-          int.tryParse(_productDetailsModel!.product?.price ?? '0') ?? 0;
-      _price = _unitePrice * _quantity;
-      isSuccess = true;
+
+      if(response.responseBody['data'] != null && response.responseBody['data'].isNotEmpty){
+        _errorMessage = null;
+        _productDetailsModel =
+            ProductDetailsModel.fromJson(response.responseBody['data'][0]);
+        _unitePrice =
+            int.tryParse(_productDetailsModel!.product?.price ?? '0') ?? 0;
+        _price = _unitePrice * _quantity;
+        isSuccess = true;
+      } else{
+        _productDetailsModel = null;
+        _errorMessage = "No product details available.";
+      }
+
+
     } else {
       _errorMessage = response.errorMessage;
     }

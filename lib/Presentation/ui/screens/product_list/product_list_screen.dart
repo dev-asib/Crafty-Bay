@@ -1,6 +1,7 @@
 import 'package:crafty_bay/Presentation/state_holders/category/list_product_by_category_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/product_card.dart';
 import 'package:crafty_bay/data/models/category/category_model.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
         if (listProductByCategoryController.inProgress) {
           return const CenteredCircularProgressIndicator();
         }
+
+        if(listProductByCategoryController.productList.isEmpty){
+          return EmptyWidget(message: "${categoryModel.categoryName} product not found.");
+        }
+
         if (listProductByCategoryController.errorMessage != null) {
           return Center(
             child: Text(

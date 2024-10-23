@@ -1,6 +1,8 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/wish_list/wish_list_controller.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/wish_list/wish_list_product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +19,8 @@ class _WishListScreenState extends State<WishListScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.find<WishListController>().getWishList(token: AuthController.accessToken!);
+      Get.find<WishListController>()
+          .getWishList(token: AuthController.accessToken!);
     });
   }
 
@@ -31,11 +34,16 @@ class _WishListScreenState extends State<WishListScreen> {
       child: Scaffold(
         appBar: _buildAppBar(),
         body: GetBuilder<WishListController>(builder: (wishListController) {
+          if (wishListController.inProgress) {
+            return const CenteredCircularProgressIndicator();
+          }
+
           if (wishListController.wishList.isEmpty) {
-            return const Center(
-              child: Text("Your wish list is empty."),
+            return const EmptyWidget(
+              message: 'Wish product not found.',
             );
           }
+
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: GridView.builder(
@@ -48,7 +56,7 @@ class _WishListScreenState extends State<WishListScreen> {
               ),
               itemBuilder: (context, index) {
                 return WishListProductCard(
-                  wishData: wishListController.wishList[index]!,
+                  wishData: wishListController.wishList[index],
                 );
               },
             ),
