@@ -13,4 +13,5 @@ class RoutesName{
   static const String reviewsScreen = "/reviews_screen";
   static const String createReviewScreen = "/create_review_screen";
   static const String userProfileScreen = "/user_profile_screen";
+  static const String paymentGatewayScreen = "/payment_gateway_screen";
 }

@@ -1,7 +1,7 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/unauthorized_warning_message.dart';
-import 'package:crafty_bay/app/app.dart';
+import 'package:crafty_bay/app/app/app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

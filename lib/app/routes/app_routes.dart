@@ -6,6 +6,7 @@ import 'package:crafty_bay/Presentation/ui/screens/cart/cart_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/category/category_list_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/home/home_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/main_bottom_nav/main_bottom_nav_screen.dart';
+import 'package:crafty_bay/Presentation/ui/screens/payment_gateway/payment_gateway_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/product_details/product_details_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/product_list/product_list_screen.dart';
 import 'package:crafty_bay/Presentation/ui/screens/review/reviews_screen.dart';
@@ -72,6 +73,10 @@ class AppRoutes {
         GetPage(
           name: RoutesName.userProfileScreen,
           page: () => const UserProfileScreen(),
+        ),
+        GetPage(
+          name: RoutesName.paymentGatewayScreen,
+          page: () => const PaymentGatewayScreen(),
         ),
       ];
 }

@@ -1,3 +1,4 @@
+import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:crafty_bay/app/theme/app_themes.dart';
 import 'package:crafty_bay/app/routes/app_routes.dart';
 import 'package:crafty_bay/bindings/app_bindings.dart';
@@ -13,6 +14,7 @@ class CraftyBayApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       navigatorKey: CraftyBayApp.navigatorKey,
+      initialRoute: RoutesName.splashScreen,
       getPages: AppRoutes.appRoutes(),
       initialBinding: AppBindings(),
       theme: AppThemes.lightThemeData(context),

@@ -1,4 +1,4 @@
-import 'package:crafty_bay/app/app.dart';
+import 'package:crafty_bay/app/app/app.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

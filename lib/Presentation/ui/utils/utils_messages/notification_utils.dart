@@ -1,6 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
-import 'package:crafty_bay/app/app.dart';
+import 'package:crafty_bay/app/app/app.dart';
 import 'package:flutter/material.dart';
 
 class NotificationUtils {

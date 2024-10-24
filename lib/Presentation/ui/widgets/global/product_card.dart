@@ -33,11 +33,10 @@ class _ProductCardState extends State<ProductCard> {
   @override
   void initState() {
     super.initState();
-
+    _checkIfProductIsInWishList();
     if (AuthController.accessToken != null) {
       Get.find<WishListController>()
           .getWishList(token: AuthController.accessToken!);
-      _checkIfProductIsInWishList();
     }
   }
 

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-class InternetConnectivityController extends GetxController {
+class ConnectivityController extends GetxController {
   late StreamSubscription _streamSubscription;
   bool isDeviceConnected = false;
   bool isAlert = false;

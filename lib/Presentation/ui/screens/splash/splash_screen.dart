@@ -15,13 +15,14 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  final InternetConnectivityController _internetConnectivityController = Get.find<InternetConnectivityController>();
+  final ConnectivityController _connectivityController = Get.find<ConnectivityController>();
 
   Future<void> _moveToNextScreen() async {
 
-    while(!_internetConnectivityController.isDeviceConnected){
+    while(!_connectivityController.isDeviceConnected){
       await Future.delayed(const Duration(seconds: 1));
     }
+
 
     await Future.delayed(const Duration(seconds: 3));
     await Get.find<AuthController>().getAccessToken();

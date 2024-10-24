@@ -1,11 +1,14 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/payment_gateway/invoice_create_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/cart/cart_item_widget.dart';
+import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -21,9 +24,14 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    Get.find<CartListController>()
-        .getCartList(token: AuthController.accessToken!);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<CartListController>()
+          .getCartList(token: AuthController.accessToken!);
+    });
   }
+
+  final InvoiceCreateController _invoiceCreateController =
+      Get.find<InvoiceCreateController>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +50,11 @@ class _CartScreenState extends State<CartScreen> {
                   .reduce((value, element) => value + element)
               : 0;
 
-          if(cartListController.inProgress){
+          if (cartListController.inProgress) {
             return const CenteredCircularProgressIndicator();
           }
 
-          if(cartListController.cartList.isEmpty){
+          if (cartListController.cartList.isEmpty) {
             return const EmptyWidget(message: "Cart product not found.");
           }
 
@@ -111,14 +119,41 @@ class _CartScreenState extends State<CartScreen> {
           ),
           SizedBox(
             width: 140,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: const Text("Checkout"),
-            ),
+            child: GetBuilder<InvoiceCreateController>(
+                builder: (invoiceCreateController) {
+              return Visibility(
+                visible: !invoiceCreateController.inProgress,
+                replacement: const CenteredCircularProgressIndicator(),
+                child: ElevatedButton(
+                  onPressed:()=> _onTapCheckOutButton(totalPrice),
+                  child: const Text("Checkout"),
+                ),
+              );
+            }),
           )
         ],
       ),
     );
+  }
+
+  Future<void> _onTapCheckOutButton(int totalPrice) async {
+    bool isInvoiceCreated =
+        await Get.find<InvoiceCreateController>().getPaymentGateWay();
+
+    if (isInvoiceCreated) {
+      Get.toNamed(
+        RoutesName.paymentGatewayScreen,
+        arguments: {
+          'totalPrice': totalPrice,
+        },
+      );
+    } else {
+      NotificationUtils.flushBarNotification(
+        title: "Warning",
+        message: _invoiceCreateController.errorMessage!,
+        backgroundColor: AppColors.redColor,
+      );
+    }
   }
 
   AppBar _buildAppBar() {

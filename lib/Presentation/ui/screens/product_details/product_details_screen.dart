@@ -1,6 +1,9 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/product_details/add_to_cart_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/product_details/product_details_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/wish_list/create_wish_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/wish_list/delete_wish_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/wish_list/wish_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
@@ -8,6 +11,7 @@ import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/product_image_slider.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/quantity_counter.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/size_picker.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/unauthorized_warning_message.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:crafty_bay/data/models/product_details/product_details_model.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +25,13 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final CreateWishListController _createWishListController =
+      Get.find<CreateWishListController>();
+  final DeleteWishListController _deleteWishListController =
+      Get.find<DeleteWishListController>();
+
+  bool _isAddedWishProduct = false;
+
   late int productID;
   String _selectedColor = '';
   String _selectedSize = '';
@@ -31,6 +42,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       productID = Get.arguments['productID'];
       Get.find<ProductDetailsController>().getProductDetailsById(productID);
+      if (AuthController.accessToken != null) {
+        Get.find<WishListController>()
+            .getWishList(token: AuthController.accessToken!);
+        _checkIfProductIsInWishList();
+      }
+    });
+  }
+
+  void _checkIfProductIsInWishList() {
+    _createWishListController.isAddedWishProduct(productID);
+    setState(() {
+      _isAddedWishProduct = _createWishListController.isProductAdded;
     });
   }
 
@@ -251,18 +274,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
         ),
         const SizedBox(width: 8),
-        Card(
-          color: AppColors.themeColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-          child: const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Icon(
-              Icons.favorite_outline,
-              color: Colors.white,
-              size: 16,
+        InkWell(
+          onTap: () async {
+            if (_isAddedWishProduct == false) {
+              await _addWishList(
+                context: context,
+                controller: _createWishListController,
+                productID: productID,
+              );
+            } else {
+              await _deleteWishList(
+                context: context,
+                controller: _deleteWishListController,
+                productID: productID,
+              );
+            }
+          },
+          child: Card(
+            color: AppColors.themeColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Icon(
+                _isAddedWishProduct ? Icons.favorite : Icons.favorite_outline,
+                color: Colors.white,
+                size: 16,
+              ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -272,6 +313,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       leading: IconButton(
         onPressed: () {
           Get.back();
+          if (AuthController.accessToken != null) {
+            Get.find<WishListController>()
+                .getWishList(token: AuthController.accessToken!);
+          }
         },
         icon: const Icon(Icons.arrow_back_ios),
       ),
@@ -314,5 +359,82 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         'productID': productID,
       },
     );
+  }
+
+  Future<void> _addWishList({
+    required BuildContext context,
+    required CreateWishListController controller,
+    required int productID,
+  }) async {
+    if (AuthController.accessToken != null) {
+      try {
+        bool isAddedWishList = await controller.createWishList(
+          token: AuthController.accessToken!,
+          productID: productID,
+        );
+
+        if (isAddedWishList) {
+          setState(() {
+            _isAddedWishProduct = true;
+          });
+
+          NotificationUtils.flushBarNotification(
+            title: "Congratulations",
+            message: "Product successfully added to wish list.",
+          );
+        } else {
+          NotificationUtils.flushBarNotification(
+            title: "Failed",
+            message: "Wish product added failed. Try again.",
+            backgroundColor: AppColors.redColor,
+          );
+        }
+      } catch (e) {
+        NotificationUtils.flushBarNotification(
+            title: "Error",
+            message: "An unexpected error: $e",
+            backgroundColor: AppColors.redColor);
+      }
+    } else {
+      unauthorizedWarningMessage();
+    }
+  }
+
+  Future<void> _deleteWishList({
+    required BuildContext context,
+    required DeleteWishListController controller,
+    required int productID,
+  }) async {
+    if (AuthController.accessToken != null) {
+      try {
+        bool isDeletedWishList = await controller.deleteWishList(
+          token: AuthController.accessToken!,
+          productID: productID,
+        );
+
+        if (isDeletedWishList) {
+          setState(() {
+            _isAddedWishProduct = false;
+          });
+
+          NotificationUtils.flushBarNotification(
+            title: "Congratulations",
+            message: "Product successfully deleted from wish list.",
+          );
+        } else {
+          NotificationUtils.flushBarNotification(
+              title: "Failed",
+              message: "Wish product deleted failed! Try again.",
+              backgroundColor: AppColors.redColor);
+        }
+      } catch (e) {
+        NotificationUtils.flushBarNotification(
+            title: "Error",
+            message: "An unexpected error: $e",
+            backgroundColor: AppColors.redColor);
+      }
+    } else {
+      unauthorizedWarningMessage();
+    }
   }
 }
