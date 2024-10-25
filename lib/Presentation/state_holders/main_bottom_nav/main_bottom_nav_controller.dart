@@ -1,5 +1,6 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/wish_list/wish_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/unauthorized_warning_message.dart';
 import 'package:crafty_bay/app/app/app.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ class MainBottomNavController extends GetxController {
       if (AuthController.accessToken != null) {
         Get.find<CartListController>()
             .getCartList(token: AuthController.accessToken!);
+        Get.find<WishListController>().getWishList(token: AuthController.accessToken!);
         _selectedIndex = index;
       } else {
         if (context != null) {

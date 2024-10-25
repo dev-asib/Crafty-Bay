@@ -175,6 +175,7 @@ class _ProductCardState extends State<ProductCard> {
         if (isAddedWishList) {
           setState(() {
             _isAddedWishProduct = true;
+            Get.find<WishListController>().getWishList(token: AuthController.accessToken!);
           });
 
           NotificationUtils.flushBarNotification(
@@ -214,6 +215,7 @@ class _ProductCardState extends State<ProductCard> {
         if (isDeletedWishList) {
           setState(() {
             _isAddedWishProduct = false;
+            Get.find<WishListController>().getWishList(token: AuthController.accessToken!);
           });
 
           NotificationUtils.flushBarNotification(

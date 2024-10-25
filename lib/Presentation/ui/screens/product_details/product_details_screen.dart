@@ -75,15 +75,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         if (productDetailsController.errorMessage != null) {
           return Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(productDetailsController.errorMessage!),
                 const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    Get.find<ProductDetailsController>()
-                        .getProductDetailsById(productID);
-                  },
-                  child: const Text("Retry"),
+                SizedBox(
+                  width: 200,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.find<ProductDetailsController>()
+                          .getProductDetailsById(productID);
+                    },
+                    child: const Text("Retry"),
+                  ),
                 ),
               ],
             ),
@@ -311,13 +316,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   AppBar _buildAppBar() {
     return AppBar(
       leading: IconButton(
-        onPressed: () {
-          Get.back();
-          if (AuthController.accessToken != null) {
-            Get.find<WishListController>()
-                .getWishList(token: AuthController.accessToken!);
-          }
-        },
+        onPressed: () => Get.back(),
         icon: const Icon(Icons.arrow_back_ios),
       ),
       title: const Text("Product Details"),
@@ -376,6 +375,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         if (isAddedWishList) {
           setState(() {
             _isAddedWishProduct = true;
+            Get.find<WishListController>()
+                .getWishList(token: AuthController.accessToken!);
           });
 
           NotificationUtils.flushBarNotification(
@@ -415,6 +416,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         if (isDeletedWishList) {
           setState(() {
             _isAddedWishProduct = false;
+            Get.find<WishListController>()
+                .getWishList(token: AuthController.accessToken!);
           });
 
           NotificationUtils.flushBarNotification(

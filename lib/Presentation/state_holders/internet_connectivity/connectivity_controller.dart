@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/wish_list/wish_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/internet_status_dialog_box.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,8 @@ class ConnectivityController extends GetxController {
               isAlert = true;
             } else if(isDeviceConnected){
               isAlert = false;
+              Get.find<WishListController>().getWishList(token: AuthController.accessToken!);
+
               Get.offNamed(RoutesName.mainBottomNavScreen);
             }
           } catch (e) {
@@ -48,6 +52,8 @@ class ConnectivityController extends GetxController {
         internetStatusDialogBox(_handleRetry);
       } else {
         isAlert = false;
+        Get.find<WishListController>().getWishList(token: AuthController.accessToken!);
+
         Get.offNamed(RoutesName.mainBottomNavScreen);
       }
     } catch (e) {
