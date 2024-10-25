@@ -15,8 +15,6 @@ class PaymentGatewayScreen extends StatefulWidget {
 }
 
 class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
-
-
   @override
   void initState() {
     super.initState();
@@ -24,8 +22,6 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
       Get.find<InvoiceCreateController>().getPaymentGateWay();
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +39,13 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
                   const SizedBox(height: 40),
                   const AppLogoWidget(),
                   const SizedBox(height: 8),
-                  Text("Make your payment",
-                      style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                    "Make your payment",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(color: AppColors.themeColor),
+                  ),
                   const SizedBox(height: 24),
                   const Expanded(
                     child: Column(
@@ -53,7 +54,7 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
                           //  isScrollable: true,
                           tabs: [
                             Tab(text: "MFS"),
-                            Tab(text: "Bank"),
+                            Tab(text: "IBS"),
                             Tab(text: "Card"),
                           ],
                         ),
@@ -82,35 +83,34 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
 
   Widget _servePayment() {
     return GetBuilder<InvoiceCreateController>(
-      builder: (invoiceCreateController) {
-        return Container(
-          height: 56,
-          decoration: const BoxDecoration(
-            color: AppColors.themeColor,
-          ),
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Pay \$${Get.arguments['totalPrice']}",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(color: AppColors.whiteColor),
+        builder: (invoiceCreateController) {
+      return Container(
+        height: 56,
+        decoration: const BoxDecoration(
+          color: AppColors.themeColor,
+        ),
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Pay \$${Get.arguments['totalPrice']}",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge
+                  ?.copyWith(color: AppColors.whiteColor),
+            ),
+            const SizedBox(width: 20),
+            const Center(
+              child: Icon(
+                Icons.shopping_cart_checkout_outlined,
+                size: 35,
+                color: AppColors.whiteColor,
               ),
-              const SizedBox(width: 20),
-              const Center(
-                child: Icon(
-                  Icons.shopping_cart_checkout_outlined,
-                  size: 35,
-                  color: AppColors.whiteColor,
-                ),
-              )
-            ],
-          ),
-        );
-      }
-    );
+            )
+          ],
+        ),
+      );
+    });
   }
 }

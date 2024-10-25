@@ -1,5 +1,5 @@
 import 'package:crafty_bay/Presentation/state_holders/category/list_product_by_category_controller.dart';
-import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/product_card.dart';
@@ -56,7 +56,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           return Center(
             child: Column(
               children: [
-                Lottie.asset(AssetsPath.emptyLottie),
+                Lottie.asset(AssetsPaths.emptyLottie),
                 Text(
                   "Product List Empty",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(

@@ -3,7 +3,7 @@ import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/payment_gateway/invoice_create_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
-import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
@@ -80,7 +80,7 @@ class _CartScreenState extends State<CartScreen> {
                 Positioned(
                   child: Lottie.asset(
                     width: 100,
-                    AssetsPath.shoppingCart,
+                    AssetsPaths.shoppingCart,
                   ),
                 ),
             ],

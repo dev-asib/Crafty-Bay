@@ -1,11 +1,11 @@
-import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:flutter/material.dart';
 
 class EmptyWidget extends StatelessWidget {
   const EmptyWidget({
     super.key,
     required this.message,
-    this.imagePath = AssetsPath.emptyCart,
+    this.imagePath = AssetsPaths.emptyCart,
   });
 
   final String message;

@@ -1,6 +1,6 @@
 import 'package:crafty_bay/Presentation/state_holders/category/category_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
-import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/category/category_card.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class CategoryListScreen extends StatelessWidget {
               return Center(
                 child: Column(
                   children: [
-                    Lottie.asset(AssetsPath.emptyLottie),
+                    Lottie.asset(AssetsPaths.emptyLottie),
                     Text(
                       "Category List Empty",
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(

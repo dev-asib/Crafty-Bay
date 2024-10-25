@@ -3,7 +3,7 @@ import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.
 import 'package:crafty_bay/Presentation/state_holders/cart/delete_cart_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/product_details/add_to_cart_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
-import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/quantity_counter.dart';
 import 'package:crafty_bay/data/models/cart_list/cart_model.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +85,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Image.asset(
-        AssetsPath.dummyImage,
+        AssetsPaths.dummyImage,
         height: 80,
         width: 80,
         fit: BoxFit.scaleDown,

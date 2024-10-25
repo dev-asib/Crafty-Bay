@@ -1,6 +1,6 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/review/product_review_controller.dart';
-import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
@@ -41,7 +41,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
         if (productReviewController.reviewList.isEmpty) {
           return const EmptyWidget(
-            imagePath: AssetsPath.emptyReview,
+            imagePath: AssetsPaths.emptyReview,
             message: "Reviews not found.",
           );
         }

@@ -1,4 +1,4 @@
-class AssetsPath {
+class AssetsPaths {
 
   static const String _basePath = 'assets';
 
@@ -18,5 +18,6 @@ class AssetsPath {
 
   static const String emptyCart = '$_icons/empty_cart.png';
   static const String emptyReview = '$_icons/empty_review.png';
+  static const String paymentGatewayUnavailable = '$_icons/payment_gateway_unavailable.png';
 
 }

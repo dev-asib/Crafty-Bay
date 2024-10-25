@@ -1,5 +1,5 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/user_profile/user_profile_controller.dart';
-import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_path.dart';
+import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/user_profile/edit_profile_view.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/user_profile/user_information_view.dart';
 import 'package:crafty_bay/data/models/user/user_model.dart';
@@ -116,7 +116,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
-          image: AssetImage(AssetsPath.dummyProfile),
+          image: AssetImage(AssetsPaths.dummyProfile),
           fit: BoxFit.fill,
         ),
       ),
