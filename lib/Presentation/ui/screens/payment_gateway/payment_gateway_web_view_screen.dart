@@ -28,10 +28,12 @@ class _PaymentGatewayWebViewScreenState
           onPageFinished: (String url) {},
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
+
           onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
             }
+            debugPrint(request.url);
             return NavigationDecision.navigate;
           },
         ),
@@ -49,6 +51,7 @@ class _PaymentGatewayWebViewScreenState
   Widget build(BuildContext context) {
     final gatewayUrl = Get.arguments['gatewayUrl'];
     return Scaffold(
+      appBar: _buildAppBar(),
       body: SafeArea(
         child: gatewayUrl != null && gatewayUrl.isNotEmpty
             ? WebViewWidget(
@@ -60,6 +63,17 @@ class _PaymentGatewayWebViewScreenState
                     'Selected payment method is currently unavailable. Please try another method.',
               ),
       ),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      leading: IconButton(
+        onPressed: ()=> Get.back(),
+        icon: const Icon(Icons.arrow_back_ios),
+      ),
+      automaticallyImplyLeading: false,
+      title: const Text("Payment"),
     );
   }
 }
