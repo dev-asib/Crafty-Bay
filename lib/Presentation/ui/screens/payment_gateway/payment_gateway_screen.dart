@@ -1,7 +1,7 @@
-import 'package:crafty_bay/Presentation/state_holders/payment_gateway/invoice_create_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/payment_gateway/payment_method_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/app_logo_widget.dart';
-import 'package:crafty_bay/Presentation/ui/widgets/local/payment_gateway/banking_payment_gateway.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/local/payment_gateway/internet_banking_payment_gateway.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/payment_gateway/card_payment_gateway_view.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/local/payment_gateway/mobile_banking_payment_gateway_view.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.find<InvoiceCreateController>().getPaymentGateWay();
+      Get.find<PaymentMethodListController>().getPaymentMethod();
     });
   }
 
@@ -36,7 +36,7 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 32),
                   const AppLogoWidget(),
                   const SizedBox(height: 8),
                   Text(
@@ -58,12 +58,12 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
                             Tab(text: "Card"),
                           ],
                         ),
-                        SizedBox(height: 16),
+                        SizedBox(height: 8),
                         Expanded(
                           child: TabBarView(
                             children: [
                               MobileBankingPaymentGateway(),
-                              BankingPaymentGatewayView(),
+                              InternetBankingPaymentGatewayView(),
                               CardPaymentGatewayView(),
                             ],
                           ),
@@ -82,25 +82,40 @@ class _PaymentGatewayScreenState extends State<PaymentGatewayScreen> {
   }
 
   Widget _servePayment() {
-    return GetBuilder<InvoiceCreateController>(
-        builder: (invoiceCreateController) {
+    return GetBuilder<PaymentMethodListController>(
+        builder: (paymentMethodListController) {
+      final TextTheme textTheme = Theme.of(context).textTheme;
       return Container(
         height: 56,
         decoration: const BoxDecoration(
           color: AppColors.themeColor,
         ),
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Pay \$${Get.arguments['totalPrice']}",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(color: AppColors.whiteColor),
+            FittedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Total: \$${paymentMethodListController.paymentGatewayList?.total ?? '0'}",
+                    style: textTheme.titleMedium
+                        ?.copyWith(color: AppColors.whiteColor),
+                  ),
+                  Text(
+                    "Vat: \$${paymentMethodListController.paymentGatewayList?.vat ?? '0'}",
+                    style: textTheme.titleMedium
+                        ?.copyWith(color: AppColors.whiteColor),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 20),
+            Text(
+              "(Pay \$${paymentMethodListController.paymentGatewayList?.payable ?? '0'})",
+              style:
+                  textTheme.titleMedium?.copyWith(color: AppColors.whiteColor),
+            ),
             const Center(
               child: Icon(
                 Icons.shopping_cart_checkout_outlined,

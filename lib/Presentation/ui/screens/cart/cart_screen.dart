@@ -1,7 +1,7 @@
 import 'package:crafty_bay/Presentation/state_holders/auth/auth/auth_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/cart/cart_list_controller.dart';
 import 'package:crafty_bay/Presentation/state_holders/main_bottom_nav/main_bottom_nav_controller.dart';
-import 'package:crafty_bay/Presentation/state_holders/payment_gateway/invoice_create_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/payment_gateway/payment_method_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/assets_paths/assets_paths.dart';
 import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
@@ -30,8 +30,8 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
-  final InvoiceCreateController _invoiceCreateController =
-      Get.find<InvoiceCreateController>();
+  final PaymentMethodListController _invoiceCreateController =
+      Get.find<PaymentMethodListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -119,13 +119,13 @@ class _CartScreenState extends State<CartScreen> {
           ),
           SizedBox(
             width: 140,
-            child: GetBuilder<InvoiceCreateController>(
+            child: GetBuilder<PaymentMethodListController>(
                 builder: (invoiceCreateController) {
               return Visibility(
                 visible: !invoiceCreateController.inProgress,
                 replacement: const CenteredCircularProgressIndicator(),
                 child: ElevatedButton(
-                  onPressed:()=> _onTapCheckOutButton(totalPrice),
+                  onPressed: () => _onTapCheckOutButton(totalPrice),
                   child: const Text("Checkout"),
                 ),
               );
@@ -138,15 +138,10 @@ class _CartScreenState extends State<CartScreen> {
 
   Future<void> _onTapCheckOutButton(int totalPrice) async {
     bool isInvoiceCreated =
-        await Get.find<InvoiceCreateController>().getPaymentGateWay();
+        await Get.find<PaymentMethodListController>().getPaymentMethod();
 
     if (isInvoiceCreated) {
-      Get.toNamed(
-        RoutesName.paymentGatewayScreen,
-        arguments: {
-          'totalPrice': totalPrice,
-        },
-      );
+      Get.toNamed(RoutesName.paymentGatewayScreen);
     } else {
       NotificationUtils.flushBarNotification(
         title: "Warning",

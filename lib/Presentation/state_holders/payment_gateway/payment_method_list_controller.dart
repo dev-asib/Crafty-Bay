@@ -1,15 +1,15 @@
 import 'package:crafty_bay/data/Utils/api_urls/urls.dart';
 import 'package:crafty_bay/data/entities/network/network_response.dart';
-import 'package:crafty_bay/data/models/payment_gateway/payment_detail_model.dart';
-import 'package:crafty_bay/data/models/payment_gateway/payment_gateway_list_model.dart';
+import 'package:crafty_bay/data/models/payment_gateway/payment_method_response_data_model.dart';
+import 'package:crafty_bay/data/models/payment_gateway/payment_method_list_model.dart';
 import 'package:crafty_bay/data/models/payment_gateway/payment_method_categories.dart';
 import 'package:crafty_bay/data/models/payment_gateway/payment_method_model.dart';
 import 'package:crafty_bay/data/services/network_caller.dart';
 import 'package:get/get.dart';
 
-class InvoiceCreateController extends GetxController {
+class PaymentMethodListController extends GetxController {
   bool _inProgress = false;
-  List<PaymentGatewayDetailModel> _paymentGatewayList = [];
+  PaymentMethodResponseDataModel? _paymentMethodResponseDataModel;
   String? _errorMessage;
   PaymentMethodCategories _categorizePaymentMethods = PaymentMethodCategories(
     mobileMethods: [],
@@ -19,40 +19,34 @@ class InvoiceCreateController extends GetxController {
 
   bool get inProgress => _inProgress;
 
-  List<PaymentGatewayDetailModel> get paymentGatewayList => _paymentGatewayList;
+  PaymentMethodResponseDataModel? get paymentGatewayList =>
+      _paymentMethodResponseDataModel;
 
   String? get errorMessage => _errorMessage;
 
   PaymentMethodCategories get categorizePaymentMethods =>
       _categorizePaymentMethods;
 
-  Future<bool> getPaymentGateWay() async {
+  Future<bool> getPaymentMethod() async {
     bool isSuccess = false;
 
     _inProgress = true;
     update();
 
     final NetworkResponse response =
-        await Get.find<NetworkCaller>().getRequest(url: Urls.invoiceCreateUrl);
+    await Get.find<NetworkCaller>().getRequest(url: Urls.invoiceCreateUrl);
 
     if (response.isSuccess) {
       _errorMessage = null;
-      _paymentGatewayList =
-          PaymentGatewayListModel.fromJson(response.responseBody)
-                  .paymentGatewayList ??
-              [];
+      _paymentMethodResponseDataModel =
+          PaymentMethodListModel.fromJson(response.responseBody)
+              .paymentMethodList
+              ?.first;
 
-      _categorizePaymentMethods = PaymentMethodCategories(
-        mobileMethods: [],
-        cartMethods: [],
-        internetBankMethods: [],
-      );
-
-      for (var paymentGateway in _paymentGatewayList) {
-        if (paymentGateway.paymentMethodList != null) {
-          _categorizePaymentMethods =
-              paymentMethodsByCategory(paymentGateway.paymentMethodList!);
-        }
+      if (_paymentMethodResponseDataModel != null &&
+          _paymentMethodResponseDataModel!.paymentMethodList != null) {
+        _categorizePaymentMethods = paymentMethodsByCategory(
+            _paymentMethodResponseDataModel!.paymentMethodList!);
       }
 
       isSuccess = true;

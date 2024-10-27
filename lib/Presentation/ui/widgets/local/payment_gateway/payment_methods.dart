@@ -1,4 +1,4 @@
-import 'package:crafty_bay/Presentation/state_holders/payment_gateway/invoice_create_controller.dart';
+import 'package:crafty_bay/Presentation/state_holders/payment_gateway/payment_method_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:crafty_bay/data/models/payment_gateway/payment_method_model.dart';
@@ -15,7 +15,7 @@ class PaymentMethods extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<InvoiceCreateController>(
+    return GetBuilder<PaymentMethodListController>(
         builder: (invoiceCreateController) {
       return GridView.builder(
         shrinkWrap: true,

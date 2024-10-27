@@ -1,15 +1,15 @@
 import 'package:crafty_bay/data/models/payment_gateway/payment_method_model.dart';
 
-class PaymentGatewayDetailModel {
+class PaymentMethodResponseDataModel {
   List<PaymentMethodModel>? paymentMethodList;
   int? payable;
   int? vat;
   int? total;
 
-  PaymentGatewayDetailModel(
+  PaymentMethodResponseDataModel(
       {this.paymentMethodList, this.payable, this.vat, this.total});
 
-  PaymentGatewayDetailModel.fromJson(Map<String, dynamic> json) {
+  PaymentMethodResponseDataModel.fromJson(Map<String, dynamic> json) {
     if (json['paymentMethod'] != null) {
       paymentMethodList = <PaymentMethodModel>[];
       json['paymentMethod'].forEach((v) {
