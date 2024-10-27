@@ -7,6 +7,7 @@ import 'package:crafty_bay/Presentation/state_holders/wish_list/wish_list_contro
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
 import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/Presentation/ui/widgets/global/color_picker.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/empty_widget.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/product_image_slider.dart';
 import 'package:crafty_bay/Presentation/ui/widgets/global/quantity_counter.dart';
@@ -134,12 +135,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             const SizedBox(height: 4),
             _buildRatingAndReviewSection(productDetailsModel),
             const SizedBox(height: 8),
-            SizePicker(
-              sizes: colors,
-              onChangedSize: (String selectedColor) {
-                _selectedColor = selectedColor;
-              },
-            ),
+
+            ColorPicker(
+                colors: colors,
+                onChangedColor: (String selectedColor) {
+                  _selectedColor = selectedColor;
+                }),
+
             const SizedBox(height: 16),
             SizePicker(
               sizes: sizes,
@@ -215,7 +217,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         Text('Description', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         Text(
-          productDetailsModel.product?.shortDes ?? '',
+          productDetailsModel.des ?? 'Description not found',
           style: const TextStyle(color: Colors.black45),
         ),
       ],

@@ -24,99 +24,101 @@ class WishListProductCard extends StatelessWidget {
         Get.toNamed(RoutesName.productDetailsScreen,
             arguments: {'productID': wishData.productId!});
       },
-      child: Card(
-        color: Colors.white,
-        elevation: 3,
-        child: SizedBox(
-          width: 160,
-          child: Column(
-            children: [
-              Container(
-                width: 160,
-                height: 100,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.themeColor.withOpacity(0.1),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(wishData.product?.image ?? ''),
-                    fit: BoxFit.fill,
+      child: FittedBox(
+        child: Card(
+          color: Colors.white,
+          elevation: 3,
+          child: SizedBox(
+            width: 160,
+            child: Column(
+              children: [
+                Container(
+                  width: 160,
+                  height: 100,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.themeColor.withOpacity(0.1),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(wishData.product?.image ?? ''),
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      wishData.product?.title ?? '',
-                      style: const TextStyle(
-                        color: Colors.black45,
-                        fontWeight: FontWeight.w500,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        wishData.product?.title ?? '',
+                        style: const TextStyle(
+                          color: Colors.black45,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "\$${wishData.product?.price ?? ''}",
-                          style: const TextStyle(
-                            color: AppColors.themeColor,
-                          ),
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            Text(
-                              "${wishData.product?.star ?? ''}",
-                              style: const TextStyle(
-                                color: Colors.black45,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                        GetBuilder<DeleteWishListController>(
-                            builder: (deleteWishListController) {
-                          return InkWell(
-                            onTap: () async {
-                              await _deleteWishProduct(
-                                context: context,
-                                controller: deleteWishListController,
-                                productID: wishData.productId!,
-                              );
-                            },
-                            child: Card(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "\$${wishData.product?.price ?? ''}",
+                            style: const TextStyle(
                               color: AppColors.themeColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4)),
-                              child: const Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Icon(
-                                  Icons.favorite,
-                                  color: Colors.white,
-                                  size: 16,
+                            ),
+                          ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Text(
+                                "${wishData.product?.star ?? ''}",
+                                style: const TextStyle(
+                                  color: Colors.black45,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
-                            ),
-                          );
-                        })
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
+                            ],
+                          ),
+                          GetBuilder<DeleteWishListController>(
+                              builder: (deleteWishListController) {
+                            return InkWell(
+                              onTap: () async {
+                                await _deleteWishProduct(
+                                  context: context,
+                                  controller: deleteWishListController,
+                                  productID: wishData.productId!,
+                                );
+                              },
+                              child: Card(
+                                color: AppColors.themeColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Icon(
+                                    Icons.favorite,
+                                    color: Colors.white,
+                                    size: 16,
+                                  ),
+                                ),
+                              ),
+                            );
+                          })
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

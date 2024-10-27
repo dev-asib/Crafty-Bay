@@ -51,17 +51,21 @@ class _SizePickerState extends State<SizePicker> {
       child: Container(
         decoration: BoxDecoration(
           color: isSelected ? AppColors.themeColor : Colors.white,
+          shape: BoxShape.circle,
           border: Border.all(
             color: AppColors.themeColor,
           ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Text(
-          size,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 18,
-            color: isSelected ? Colors.white : AppColors.themeColor,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Text(
+            size,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+              color: isSelected ? Colors.white : AppColors.themeColor,
+            ),
           ),
         ),
       ),
