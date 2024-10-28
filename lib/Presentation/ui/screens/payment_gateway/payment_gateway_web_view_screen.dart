@@ -17,6 +17,7 @@ class _PaymentGatewayWebViewScreenState
   WebViewController? _gateWayWebViewController;
 
   WebViewController _webViewController() {
+
     return WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
@@ -28,7 +29,6 @@ class _PaymentGatewayWebViewScreenState
           onPageFinished: (String url) {},
           onHttpError: (HttpResponseError error) {},
           onWebResourceError: (WebResourceError error) {},
-
           onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
@@ -69,7 +69,7 @@ class _PaymentGatewayWebViewScreenState
   AppBar _buildAppBar() {
     return AppBar(
       leading: IconButton(
-        onPressed: ()=> Get.back(),
+        onPressed: () => Get.back(),
         icon: const Icon(Icons.arrow_back_ios),
       ),
       automaticallyImplyLeading: false,

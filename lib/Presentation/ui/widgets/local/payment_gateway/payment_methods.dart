@@ -1,5 +1,6 @@
 import 'package:crafty_bay/Presentation/state_holders/payment_gateway/payment_method_list_controller.dart';
 import 'package:crafty_bay/Presentation/ui/utils/colors/app_colors.dart';
+import 'package:crafty_bay/Presentation/ui/utils/utils_messages/notification_utils.dart';
 import 'package:crafty_bay/app/routes/routes_name.dart';
 import 'package:crafty_bay/data/models/payment_gateway/payment_method_model.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,18 @@ class PaymentMethods extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              Get.toNamed(RoutesName.paymentGatewayWebViewScreen, arguments: {
-                "gatewayUrl": paymentMethods[index].redirectGatewayURL,
-              });
+              if (paymentMethods[index].redirectGatewayURL != null) {
+                Get.toNamed(RoutesName.paymentGatewayWebViewScreen, arguments: {
+                  "gatewayUrl": paymentMethods[index].redirectGatewayURL,
+                });
+              } else {
+                return NotificationUtils.flushBarNotification(
+                  title: "Warning",
+                  message:
+                      "Gateway url is not working for this payment method.",
+                  backgroundColor: AppColors.redColor,
+                );
+              }
             },
             child: Card(
               color: AppColors.whiteColor,
